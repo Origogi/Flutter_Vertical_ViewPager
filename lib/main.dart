@@ -111,7 +111,6 @@ class CardControllerWidget extends StatelessWidget {
   double getCardPositionTop(double cardHeight, double viewHeight, int i) {
     double diff = (currentPostion - i);
 
-    print(diff);
     if (diff < -2) {
       return (viewHeight / 2) - (cardHeight / 2) + 350;
     } else if (diff >= -2 && diff < -1) {
@@ -119,7 +118,7 @@ class CardControllerWidget extends StatelessWidget {
     } else if (diff >= -1 && diff < 0) {
       return (viewHeight / 2) - (cardHeight / 2) + 240;
     } else if (diff >= 0 && diff < 1) {
-      return (viewHeight / 2) - (cardHeight / 2);
+      return (viewHeight / 2) - (cardHeight / 2) + 240 * ( diff.floor() - diff);
     } else if (diff >= 1 && diff < 2) {
       return (viewHeight / 2) - (cardHeight / 2) - 240 ;
     } else if (diff >= 2 && diff < 3) {
