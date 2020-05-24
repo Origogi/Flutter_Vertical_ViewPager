@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Positioned.fill(
               child: PageView.builder(
                 scrollDirection: Axis.vertical,
-                itemCount: 5,
+                itemCount: 6,
                 controller: controller,
                 itemBuilder: (context, index) {
                   return Container();
@@ -70,7 +70,8 @@ class CardControllerWidget extends StatelessWidget {
     Colors.blue,
     Colors.amber,
     Colors.cyan,
-    Colors.indigo
+    Colors.indigo,
+    Colors.brown
   ];
 
   CardControllerWidget({this.currentPostion});
@@ -83,20 +84,27 @@ class CardControllerWidget extends StatelessWidget {
 
       List<Widget> cardList = List();
 
-      for (int i = 0; i < cardLength; i++) {
+      for (int i = 0; i < colors.length; i++) {
         var cardWidth = cardWidthMax - 60 * (currentPostion - i).abs();
         var cardHeight = getCardHeight(i);
 
         var cardTop = getCardPositionTop(cardHeight, viewHeight, i);
 
+        if (i == 2) {
+          // print(cardTop);
+        }
+
         Widget card = Positioned.directional(
             textDirection: TextDirection.ltr,
             top: cardTop,
             start: (viewWidth / 2) - (cardWidth / 2),
-            child: Container(
-              width: cardWidth,
-              height: cardHeight,
-              color: colors[i],
+            child: Opacity(
+              opacity: 0.3,
+              child: Container(
+                width: cardWidth,
+                height: cardHeight,
+                color: colors[i],
+              ),
             ));
 
         cardList.add(card);
@@ -110,22 +118,58 @@ class CardControllerWidget extends StatelessWidget {
 
   double getCardPositionTop(double cardHeight, double viewHeight, int i) {
     double diff = (currentPostion - i);
+    double diffAbs = diff.abs();
 
-    if (diff < -2) {
-      return (viewHeight / 2) - (cardHeight / 2) + 350;
-    } else if (diff >= -2 && diff < -1) {
-      return (viewHeight / 2) - (cardHeight / 2) + 350;
-    } else if (diff >= -1 && diff < 0) {
-      return (viewHeight / 2) - (cardHeight / 2) + 240;
-    } else if (diff >= 0 && diff < 1) {
-      return (viewHeight / 2) - (cardHeight / 2) + 240 * ( diff.floor() - diff);
-    } else if (diff >= 1 && diff < 2) {
-      return (viewHeight / 2) - (cardHeight / 2) - 240 ;
-    } else if (diff >= 2 && diff < 3) {
-      return (viewHeight / 2) - (cardHeight / 2) - 350;
-    } else {
-      return (viewHeight / 2) - (cardHeight / 2) - 350;
+    double basePosition = (viewHeight / 2) - (cardHeight / 2);
+
+    if (i == 2) {
+      print(diff);
     }
+
+    if (diffAbs == 0) {
+      return basePosition;
+    }
+    if (diffAbs > 0.0 && diffAbs < 1.0) {
+      if (diff >= 0) {
+        return basePosition + 240 * (diff.floor() - diff).abs();
+      } else {
+        return basePosition - 240 * (1 - (diff.floor() - diff).abs());
+      }
+    } else if (diffAbs == 1) {
+      if (diff >= 0) {
+        return basePosition + 240;
+      } else {
+        return basePosition - 240;
+      }
+    } else if (diffAbs > 1.0 && diffAbs < 2.0) {
+      if (diff >= 0) {
+        return basePosition + 240 + 110 * (diff.floor() - diff).abs();
+      } else {
+        return basePosition - 240 + (-110 * (1 - (diff.floor() - diff).abs()));
+      }
+    } else {
+      if (diff >= 0) {
+        return basePosition + 350;
+      } else {
+        return basePosition - 350;
+      }
+    }
+
+    // if (diff < -2) {
+    //   return (viewHeight / 2) - (cardHeight / 2) + 350;
+    // } else if (diff >= -2 && diff < -1) {
+    //   return (viewHeight / 2) - (cardHeight / 2) + 350;
+    // } else if (diff >= -1 && diff < 0) {
+    //   return (viewHeight / 2) - (cardHeight / 2) - 240 * (1 - (diff.floor() - diff).abs());
+    // } else if (diff >= 0 && diff < 1) {
+    //   return (viewHeight / 2) - (cardHeight / 2) + 240 * ( diff.floor() - diff);
+    // } else if (diff >= 1 && diff < 2) {
+    //   return (viewHeight / 2) - (cardHeight / 2) - 240 * (1 - (diff.floor() - diff).abs());
+    // } else if (diff >= 2 && diff < 3) {
+    //   return (viewHeight / 2) - (cardHeight / 2) - 350;
+    // } else {
+    //   return (viewHeight / 2) - (cardHeight / 2) - 350;
+    // }
   }
 
   double getCardHeight(int index) {
