@@ -131,27 +131,27 @@ class CardControllerWidget extends StatelessWidget {
     }
     if (diffAbs > 0.0 && diffAbs < 1.0) {
       if (diff >= 0) {
-        return basePosition + 240 * (diff.floor() - diff).abs();
+        return basePosition - 240 * diff.abs();
       } else {
-        return basePosition - 240 * (1 - (diff.floor() - diff).abs());
+        return basePosition + 240 * diffAbs;
       }
     } else if (diffAbs == 1) {
       if (diff >= 0) {
-        return basePosition + 240;
-      } else {
         return basePosition - 240;
+      } else {
+        return basePosition + 240;
       }
     } else if (diffAbs > 1.0 && diffAbs < 2.0) {
       if (diff >= 0) {
-        return basePosition + 240 + 110 * (diff.floor() - diff).abs();
+        return basePosition - 240 - 110 * (diffAbs - diffAbs.floor()).abs();
       } else {
-        return basePosition - 240 + (-110 * (1 - (diff.floor() - diff).abs()));
+        return basePosition + 240 + 110 * (diffAbs - diffAbs.floor()).abs();
       }
     } else {
       if (diff >= 0) {
-        return basePosition + 350;
-      } else {
         return basePosition - 350;
+      } else {
+        return basePosition + 350;
       }
     }
 
