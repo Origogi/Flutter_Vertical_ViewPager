@@ -65,14 +65,29 @@ class CardControllerWidget extends StatelessWidget {
 
   var centerTopPosition = 0.0;
 
-  final colors = [
-    Colors.red,
-    Colors.blue,
-    Colors.amber,
-    Colors.cyan,
-    Colors.indigo,
-    Colors.brown
+  final images = [
+    "images/catalina.png",
+    "images/el_capitan.png",
+    "images/high_sierra.png",
+    "images/mojave.png",
+    "images/sierra.png",
+    "images/yosemite.png"
   ];
+
+  final texts = [
+    "Catalina",
+    "El Capitan",
+    "High Sierra",
+    "Mojave",
+    "Sierra",
+    "Yosemite",
+  ];
+
+  final titleTextStyle = TextStyle(
+    color: Colors.white,
+    fontFamily: 'Bevan',
+    fontWeight: FontWeight.bold,
+  );
 
   CardControllerWidget({this.currentPostion});
 
@@ -84,26 +99,40 @@ class CardControllerWidget extends StatelessWidget {
 
       List<Widget> cardList = List();
 
-      for (int i = 0; i < colors.length; i++) {
+      for (int i = 0; i < images.length; i++) {
         var cardWidth = cardWidthMax - 60 * (currentPostion - i).abs();
         var cardHeight = getCardHeight(i);
 
         var cardTop = getCardPositionTop(cardHeight, viewHeight, i);
-
-        if (i == 2) {
-          // print(cardTop);
-        }
 
         Widget card = Positioned.directional(
             textDirection: TextDirection.ltr,
             top: cardTop,
             start: (viewWidth / 2) - (cardWidth / 2),
             child: Opacity(
-              opacity:getOpacity(i),
+              opacity: getOpacity(i),
               child: Container(
                 width: cardWidth,
                 height: cardHeight,
-                color: colors[i],
+                child: Stack(
+                  children: <Widget>[
+                    Positioned.fill(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: Image.asset(
+                          images[i],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Align(
+                        child: Text(
+                      texts[i],
+                      style: titleTextStyle.copyWith(fontSize: getFontSize(i)),
+                      textAlign: TextAlign.center,
+                    )),
+                  ],
+                ),
               ),
             ));
 
@@ -119,15 +148,13 @@ class CardControllerWidget extends StatelessWidget {
   double getOpacity(int i) {
     double diff = (currentPostion - i);
 
-
     if (diff >= -2 && diff <= 2) {
       return 1.0;
     } else if (diff > -3 && diff < -2) {
       return 3 - diff.abs();
     } else if (diff > 2 && diff < 3) {
       return 3 - diff.abs();
-    }
-    else {
+    } else {
       return 0;
     }
   }
@@ -180,7 +207,24 @@ class CardControllerWidget extends StatelessWidget {
     } else if (diff >= 1.0 && diff < 2.0) {
       return cardHeightMax - 250 - 20 * ((diff - diff.floor()));
     } else {
-      return cardHeightMax - 270.0;
+      final height = cardHeightMax - 270.0 - 40 * ((diff - diff.floor()));
+
+      return height > 0 ? height : 0;
+    }
+  }
+
+  double getFontSize(int index) {
+    double diffAbs = (currentPostion - index).abs();
+    double maxFontSize = 50;
+
+    if (diffAbs >= 0.0 && diffAbs < 1.0) {
+      return maxFontSize - 25 * ((diffAbs - diffAbs.floor()));
+    } else if (diffAbs >= 1.0 && diffAbs < 2.0) {
+      return maxFontSize - 25 - 5 * ((diffAbs - diffAbs.floor()));
+    } else {
+      final fontSize = maxFontSize - 30 - 15 * ((diffAbs - diffAbs.floor()));
+
+      return fontSize > 0 ? fontSize : 0;
     }
   }
 }
