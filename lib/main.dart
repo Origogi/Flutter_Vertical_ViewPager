@@ -99,7 +99,7 @@ class CardControllerWidget extends StatelessWidget {
             top: cardTop,
             start: (viewWidth / 2) - (cardWidth / 2),
             child: Opacity(
-              opacity: 0.3,
+              opacity:getOpacity(i),
               child: Container(
                 width: cardWidth,
                 height: cardHeight,
@@ -114,6 +114,22 @@ class CardControllerWidget extends StatelessWidget {
         children: cardList,
       );
     });
+  }
+
+  double getOpacity(int i) {
+    double diff = (currentPostion - i);
+
+
+    if (diff >= -2 && diff <= 2) {
+      return 1.0;
+    } else if (diff > -3 && diff < -2) {
+      return 3 - diff.abs();
+    } else if (diff > 2 && diff < 3) {
+      return 3 - diff.abs();
+    }
+    else {
+      return 0;
+    }
   }
 
   double getCardPositionTop(double cardHeight, double viewHeight, int i) {
@@ -154,22 +170,6 @@ class CardControllerWidget extends StatelessWidget {
         return basePosition + 350;
       }
     }
-
-    // if (diff < -2) {
-    //   return (viewHeight / 2) - (cardHeight / 2) + 350;
-    // } else if (diff >= -2 && diff < -1) {
-    //   return (viewHeight / 2) - (cardHeight / 2) + 350;
-    // } else if (diff >= -1 && diff < 0) {
-    //   return (viewHeight / 2) - (cardHeight / 2) - 240 * (1 - (diff.floor() - diff).abs());
-    // } else if (diff >= 0 && diff < 1) {
-    //   return (viewHeight / 2) - (cardHeight / 2) + 240 * ( diff.floor() - diff);
-    // } else if (diff >= 1 && diff < 2) {
-    //   return (viewHeight / 2) - (cardHeight / 2) - 240 * (1 - (diff.floor() - diff).abs());
-    // } else if (diff >= 2 && diff < 3) {
-    //   return (viewHeight / 2) - (cardHeight / 2) - 350;
-    // } else {
-    //   return (viewHeight / 2) - (cardHeight / 2) - 350;
-    // }
   }
 
   double getCardHeight(int index) {
