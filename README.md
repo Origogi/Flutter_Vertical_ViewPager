@@ -15,5 +15,5 @@ Vertical viewpager
 - [x] Make proto type
 - [ ] Add init animation
 - [ ] Add dispose animation
-- [ ] Add or Remove Item effect
-- [ ] Add round edge in each item view
+- [x] Add or Remove Item effect
+- [x] Add round edge in each item view
