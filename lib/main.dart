@@ -65,13 +65,31 @@ class CardControllerWidget extends StatelessWidget {
 
   var centerTopPosition = 0.0;
 
-  final images = [
-    "images/catalina.png",
-    "images/el_capitan.png",
-    "images/high_sierra.png",
-    "images/mojave.png",
-    "images/sierra.png",
-    "images/yosemite.png"
+  static List images = [
+    Image.asset(
+      "images/catalina.png",
+      fit: BoxFit.cover,
+    ),
+    Image.asset(
+      "images/el_capitan.png",
+      fit: BoxFit.cover,
+    ),
+    Image.asset(
+      "images/high_sierra.png",
+      fit: BoxFit.cover,
+    ),
+    Image.asset(
+      "images/mojave.png",
+      fit: BoxFit.cover,
+    ),
+    Image.asset(
+      "images/sierra.png",
+      fit: BoxFit.cover,
+    ),
+    Image.asset(
+      "images/yosemite.png",
+      fit: BoxFit.cover,
+    ),
   ];
 
   final texts = [
