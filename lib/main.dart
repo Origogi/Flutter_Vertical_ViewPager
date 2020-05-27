@@ -180,10 +180,6 @@ class CardControllerWidget extends StatelessWidget {
 
     double basePosition = (viewHeight / 2) - (cardHeight / 2);
 
-    if (i == 2) {
-      print(diff);
-    }
-
     if (diffAbs == 0) {
       return basePosition;
     }
@@ -230,9 +226,14 @@ class CardControllerWidget extends StatelessWidget {
 
   double getFontSize(int index) {
     double diffAbs = (currentPostion - index).abs();
-    double maxFontSize = 50;
+    diffAbs = num.parse(diffAbs.toStringAsFixed(2));
 
+    double maxFontSize = 50;
     if (diffAbs >= 0.0 && diffAbs < 1.0) {
+      if (diffAbs < 0.02) {
+        diffAbs = 0;
+      }
+
       return maxFontSize - 25 * ((diffAbs - diffAbs.floor()));
     } else if (diffAbs >= 1.0 && diffAbs < 2.0) {
       return maxFontSize - 25 - 5 * ((diffAbs - diffAbs.floor()));
