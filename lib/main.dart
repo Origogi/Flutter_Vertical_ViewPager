@@ -27,11 +27,16 @@ class _MyHomePageState extends State<MyHomePage> {
   double currentPostion = 2.0;
   PageController controller = PageController(initialPage: 2);
 
-  void onTapOn(BuildContext context, details) {
+  void onTapUp(BuildContext context, details) {
     print('${details.globalPosition}');
     final RenderBox box = context.findRenderObject();
     final Offset localOffset = box.globalToLocal(details.globalPosition);
     print("local offset ${localOffset.dx}, ${localOffset.dy}");
+
+    double dx = localOffset.dx;
+    double dy = localOffset.dy;
+
+    
   }
 
   var isScrolling = false;
@@ -55,8 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
           },
           onTapUp: (details) {
             if (!isScrolling) {
-            onTapOn(context, details);
-
+              onTapUp(context, details);
             }
           },
           child: Stack(
@@ -78,6 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+ 
 }
 
 class CardControllerWidget extends StatelessWidget {
