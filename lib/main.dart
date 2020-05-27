@@ -27,6 +27,15 @@ class _MyHomePageState extends State<MyHomePage> {
   double currentPostion = 2.0;
   PageController controller = PageController(initialPage: 2);
 
+  void onTapOn(BuildContext context, details) {
+    print('${details.globalPosition}');
+    final RenderBox box = context.findRenderObject();
+    final Offset localOffset = box.globalToLocal(details.globalPosition);
+    print("local offset ${localOffset.dx}, ${localOffset.dy}");
+  }
+
+  var isScrolling = false;
+
   @override
   Widget build(BuildContext context) {
     controller.addListener(() {
@@ -37,20 +46,34 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          children: [
-            CardControllerWidget(currentPostion: currentPostion),
-            Positioned.fill(
-              child: PageView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: 6,
-                controller: controller,
-                itemBuilder: (context, index) {
-                  return Container();
-                },
-              ),
-            )
-          ],
+        child: GestureDetector(
+          onVerticalDragEnd: (details) {
+            isScrolling = false;
+          },
+          onVerticalDragStart: (details) {
+            isScrolling = true;
+          },
+          onTapUp: (details) {
+            if (!isScrolling) {
+            onTapOn(context, details);
+
+            }
+          },
+          child: Stack(
+            children: [
+              CardControllerWidget(currentPostion: currentPostion),
+              Positioned.fill(
+                child: PageView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: 6,
+                  controller: controller,
+                  itemBuilder: (context, index) {
+                    return Container();
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
