@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -25,14 +24,18 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
   }
 
   @override
-  Widget build(BuildContext context) {
-
+  void initState() {
     controller.addListener(() {
       setState(() {
         currentPostion = controller.page;
       });
     });
 
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onVerticalDragEnd: (details) {
         isScrolling = false;
@@ -69,8 +72,6 @@ class CardControllerWidget extends StatelessWidget {
   final int cardLength = 5;
   final cardWidthMax = 350.0;
   final cardHeightMax = 350.0;
-
-  var centerTopPosition = 0.0;
 
   static List images = [
     Image.asset(
