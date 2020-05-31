@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'constant/constant.dart';
+
 class VerticalCardPager extends StatefulWidget {
   @override
   _VerticalCardPagerState createState() => _VerticalCardPagerState();
@@ -36,42 +38,55 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onVerticalDragEnd: (details) {
-        isScrolling = false;
-      },
-      onVerticalDragStart: (details) {
-        isScrolling = true;
-      },
-      onTapUp: (details) {
-        if (!isScrolling) {
-          onTapUp(context, details);
-        }
-      },
-      child: Stack(
-        children: [
-          CardControllerWidget(currentPostion: currentPostion),
-          Positioned.fill(
-            child: PageView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: 6,
-              controller: controller,
-              itemBuilder: (context, index) {
-                return Container();
-              },
+    return LayoutBuilder(builder: (context, constraints) {
+      return GestureDetector(
+        onVerticalDragEnd: (details) {
+          isScrolling = false;
+        },
+        onVerticalDragStart: (details) {
+          isScrolling = true;
+        },
+        onTapUp: (details) {
+          if (!isScrolling) {
+            onTapUp(context, details);
+          }
+        },
+        child: Stack(
+          children: [
+            CardControllerWidget(
+              currentPostion: currentPostion,
+              cardViewPagerHeight: constraints.maxHeight,
+              cardViewPagerWidth: constraints.maxWidth,
             ),
-          )
-        ],
-      ),
-    );
+            Positioned.fill(
+              child: PageView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: 6,
+                controller: controller,
+                itemBuilder: (context, index) {
+                  return Container();
+                },
+              ),
+            )
+          ],
+        ),
+      );
+    });
   }
 }
 
 class CardControllerWidget extends StatelessWidget {
   final double currentPostion;
   final int cardLength = 5;
-  final cardWidthMax = 350.0;
-  final cardHeightMax = 350.0;
+  final double cardMaxWidth;
+  final double cardMaxHeight;
+  final double cardViewPagerHeight;
+  final double cardViewPagerWidth;
+
+  CardControllerWidget(
+      {this.cardViewPagerWidth, this.cardViewPagerHeight, this.currentPostion})
+      : cardMaxWidth = cardViewPagerWidth - maxCardWidthPadding,
+        cardMaxHeight = cardViewPagerHeight * (2.0 / 6.0);
 
   static List images = [
     Image.asset(
@@ -115,57 +130,50 @@ class CardControllerWidget extends StatelessWidget {
     fontWeight: FontWeight.bold,
   );
 
-  CardControllerWidget({this.currentPostion});
-
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      var viewWidth = constraints.maxWidth;
-      var viewHeight = constraints.maxHeight;
+    List<Widget> cardList = List();
 
-      List<Widget> cardList = List();
+    for (int i = 0; i < images.length; i++) {
+      var cardWidth = cardMaxWidth - 60 * (currentPostion - i).abs();
+      var cardHeight = getCardHeight(i);
 
-      for (int i = 0; i < images.length; i++) {
-        var cardWidth = cardWidthMax - 60 * (currentPostion - i).abs();
-        var cardHeight = getCardHeight(i);
+      var cardTop = getCardPositionTop(cardHeight, cardViewPagerHeight, i);
 
-        var cardTop = getCardPositionTop(cardHeight, viewHeight, i);
-
-        Widget card = Positioned.directional(
-            textDirection: TextDirection.ltr,
-            top: cardTop,
-            start: (viewWidth / 2) - (cardWidth / 2),
-            child: Opacity(
-              opacity: getOpacity(i),
-              child: Container(
-                width: cardWidth,
-                height: cardHeight,
-                child: Stack(
-                  children: <Widget>[
-                    Positioned.fill(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: images[i],
-                      ),
+      Widget card = Positioned.directional(
+          textDirection: TextDirection.ltr,
+          top: cardTop,
+          start: (cardViewPagerWidth / 2) - (cardWidth / 2),
+          child: Opacity(
+            opacity: getOpacity(i),
+            child: Container(
+              width: cardWidth,
+              height: cardHeight,
+              child: Stack(
+                children: <Widget>[
+                  Positioned.fill(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: images[i],
                     ),
-                    Align(
-                        child: Text(
-                      texts[i],
-                      style: titleTextStyle.copyWith(fontSize: getFontSize(i)),
-                      textAlign: TextAlign.center,
-                    )),
-                  ],
-                ),
+                  ),
+                  Align(
+                      child: Text(
+                    texts[i],
+                    style: titleTextStyle.copyWith(fontSize: getFontSize(i)),
+                    textAlign: TextAlign.center,
+                  )),
+                ],
               ),
-            ));
+            ),
+          ));
 
-        cardList.add(card);
-      }
+      cardList.add(card);
+    }
 
-      return Stack(
-        children: cardList,
-      );
-    });
+    return Stack(
+      children: cardList,
+    );
   }
 
   double getOpacity(int i) {
@@ -191,29 +199,27 @@ class CardControllerWidget extends StatelessWidget {
     if (diffAbs == 0) {
       return basePosition;
     }
-    if (diffAbs > 0.0 && diffAbs < 1.0) {
+    if (diffAbs > 0.0 && diffAbs <= 1.0) {
       if (diff >= 0) {
-        return basePosition - 240 * diff.abs();
+        return basePosition - (cardViewPagerHeight * (2 / 7) - cardHeightPadding) * diffAbs;
       } else {
-        return basePosition + 240 * diffAbs;
-      }
-    } else if (diffAbs == 1) {
-      if (diff >= 0) {
-        return basePosition - 240;
-      } else {
-        return basePosition + 240;
+        return basePosition + (cardViewPagerHeight * (2 / 7) - cardHeightPadding) * diffAbs;
       }
     } else if (diffAbs > 1.0 && diffAbs < 2.0) {
       if (diff >= 0) {
-        return basePosition - 240 - 110 * (diffAbs - diffAbs.floor()).abs();
+        return basePosition -
+            (cardViewPagerHeight * (2 / 7) - cardHeightPadding)  -
+            cardViewPagerHeight * (1 / 7) * (diffAbs - diffAbs.floor()).abs();
       } else {
-        return basePosition + 240 + 110 * (diffAbs - diffAbs.floor()).abs();
+        return basePosition +
+            (cardViewPagerHeight * (2 / 7) - cardHeightPadding)  +
+            cardViewPagerHeight * (1 / 7) * (diffAbs - diffAbs.floor()).abs();
       }
     } else {
       if (diff >= 0) {
-        return basePosition - 350;
+        return basePosition - cardViewPagerHeight * (3 / 7) + cardHeightPadding;
       } else {
-        return basePosition + 350;
+        return basePosition + cardViewPagerHeight * (3 / 7) - cardHeightPadding;
       }
     }
   }
@@ -222,11 +228,14 @@ class CardControllerWidget extends StatelessWidget {
     double diff = (currentPostion - index).abs();
 
     if (diff >= 0.0 && diff < 1.0) {
-      return cardHeightMax - 250.0 * ((diff - diff.floor()));
+      return cardMaxHeight - (cardMaxHeight / 2) * ((diff - diff.floor()));
     } else if (diff >= 1.0 && diff < 2.0) {
-      return cardHeightMax - 250 - 20 * ((diff - diff.floor()));
+      return cardMaxHeight - (cardMaxHeight / 2) - 40 * ((diff - diff.floor()));
     } else {
-      final height = cardHeightMax - 270.0 - 40 * ((diff - diff.floor()));
+      final height = cardMaxHeight -
+          (cardMaxHeight / 2) -
+          40 -
+          40 * ((diff - diff.floor()));
 
       return height > 0 ? height : 0;
     }
