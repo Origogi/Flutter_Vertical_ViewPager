@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-
-import 'constant/constant.dart';
 
 class VerticalCardPager extends StatefulWidget {
   @override
@@ -9,13 +8,14 @@ class VerticalCardPager extends StatefulWidget {
 }
 
 class _VerticalCardPagerState extends State<VerticalCardPager> {
-  bool isScrolling;
+  bool isScrolling = false;
 
-  double currentPostion = 2.0;
+  double currentPosition = 2.0;
 
   PageController controller = PageController(initialPage: 2);
 
-  void onTapUp(BuildContext context, details) {
+  int onTapUp(
+      BuildContext context, double maxHeight, double maxWidth, details) {
     print('${details.globalPosition}');
     final RenderBox box = context.findRenderObject();
     final Offset localOffset = box.globalToLocal(details.globalPosition);
@@ -23,21 +23,40 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
 
     double dx = localOffset.dx;
     double dy = localOffset.dy;
+
+    for (int i = 0; i < 5; i++) {
+      double width = getWidth(maxHeight, i);
+      double height = getHeight(maxHeight, i);
+      double left = (maxWidth / 2) - (width / 2);
+      double top = getCardPositionTop(height, maxHeight, i);
+
+      if (top <= dy && dy <= top + height) {
+        if (left <= dx && dx <= left + width) {
+          return i;
+        }
+      }
+    }
+    return -1;
   }
 
   @override
   void initState() {
-    controller.addListener(() {
+
+
+    super.initState();
+
+        controller.addListener(() {
       setState(() {
-        currentPostion = controller.page;
+        currentPosition = controller.page;
+        print(currentPosition);
       });
     });
 
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     return LayoutBuilder(builder: (context, constraints) {
       return GestureDetector(
         onVerticalDragEnd: (details) {
@@ -48,13 +67,22 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
         },
         onTapUp: (details) {
           if (!isScrolling) {
-            onTapUp(context, details);
+            int selectedIndex = onTapUp(
+                context, constraints.maxHeight, constraints.maxWidth, details);
+
+            if (selectedIndex >= 0) {
+              int goToPage = currentPosition.toInt() + selectedIndex - 2;
+              print("Go To : ${goToPage}");
+              controller.animateToPage( goToPage , duration: Duration(milliseconds: 300), curve: Curves.easeInOutExpo);
+            }
+
+            print(selectedIndex);
           }
         },
         child: Stack(
           children: [
             CardControllerWidget(
-              currentPostion: currentPostion,
+              currentPostion: currentPosition,
               cardViewPagerHeight: constraints.maxHeight,
               cardViewPagerWidth: constraints.maxWidth,
             ),
@@ -72,6 +100,47 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
         ),
       );
     });
+  }
+
+  double getWidth(maxHeight, i) {
+    double cardMaxWidth = maxHeight / 2;
+    return cardMaxWidth - 60 * (i - 2).abs();
+  }
+
+  double getHeight(maxHeight, i) {
+    double cardMaxHeight = maxHeight / 2;
+
+    if (i == 2) {
+      return cardMaxHeight;
+    } else if (i == 0 || i == 4) {
+      return cardMaxHeight - cardMaxHeight * (4 / 5) - 10;
+    } else
+      return cardMaxHeight - cardMaxHeight * (4 / 5);
+  }
+}
+
+double getCardPositionTop(double cardHeight, double viewHeight, int i) {
+  int diff = (2 - i);
+  int diffAbs = diff.abs();
+
+  double basePosition = (viewHeight / 2) - (cardHeight / 2);
+  double cardMaxHeight = viewHeight / 2;
+
+  if (diffAbs == 0) {
+    return basePosition;
+  }
+  if (diffAbs == 1) {
+    if (diff >= 0) {
+      return basePosition - (cardMaxHeight * (6 / 9));
+    } else {
+      return basePosition + (cardMaxHeight * (6 / 9));
+    }
+  } else {
+    if (diff >= 0) {
+      return basePosition - cardMaxHeight * (8 / 9);
+    } else {
+      return basePosition + cardMaxHeight * (8 / 9);
+    }
   }
 }
 
@@ -138,7 +207,7 @@ class CardControllerWidget extends StatelessWidget {
       var cardWidth = cardMaxWidth - 60 * (currentPostion - i).abs();
       var cardHeight = getCardHeight(i);
 
-      var cardTop = getCardPositionTop(cardHeight, cardViewPagerHeight, i);
+      var cardTop = getTop(cardHeight, cardViewPagerHeight, i);
 
       Widget card = Positioned.directional(
           textDirection: TextDirection.ltr,
@@ -190,7 +259,7 @@ class CardControllerWidget extends StatelessWidget {
     }
   }
 
-  double getCardPositionTop(double cardHeight, double viewHeight, int i) {
+  double getTop(double cardHeight, double viewHeight, int i) {
     double diff = (currentPostion - i);
     double diffAbs = diff.abs();
 
