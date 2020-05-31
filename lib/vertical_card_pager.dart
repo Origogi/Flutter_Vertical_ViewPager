@@ -85,8 +85,8 @@ class CardControllerWidget extends StatelessWidget {
 
   CardControllerWidget(
       {this.cardViewPagerWidth, this.cardViewPagerHeight, this.currentPostion})
-      : cardMaxWidth = cardViewPagerWidth - maxCardWidthPadding,
-        cardMaxHeight = cardViewPagerHeight * (1 / 3);
+      : cardMaxHeight = cardViewPagerHeight * (1 / 2),
+        cardMaxWidth = cardViewPagerHeight * (1 / 2);
 
   static List images = [
     Image.asset(
@@ -201,25 +201,25 @@ class CardControllerWidget extends StatelessWidget {
     }
     if (diffAbs > 0.0 && diffAbs <= 1.0) {
       if (diff >= 0) {
-        return basePosition - (cardViewPagerHeight * (2 / 7)) * diffAbs;
+        return basePosition - (cardMaxHeight * (6 / 9)) * diffAbs;
       } else {
-        return basePosition + (cardViewPagerHeight * (2 / 7)) * diffAbs;
+        return basePosition + (cardMaxHeight * (6 / 9)) * diffAbs;
       }
     } else if (diffAbs > 1.0 && diffAbs < 2.0) {
       if (diff >= 0) {
         return basePosition -
-            (cardViewPagerHeight * (2 / 7)) -
-            cardViewPagerHeight * (1 / 7) * (diffAbs - diffAbs.floor()).abs();
+            (cardMaxHeight * (6 / 9)) -
+            cardMaxHeight * (2 / 9) * (diffAbs - diffAbs.floor()).abs();
       } else {
         return basePosition +
-            (cardViewPagerHeight * (2 / 7)) +
-            cardViewPagerHeight * (1 / 7) * (diffAbs - diffAbs.floor()).abs();
+            (cardMaxHeight * (6 / 9)) +
+            cardMaxHeight * (2 / 9) * (diffAbs - diffAbs.floor()).abs();
       }
     } else {
       if (diff >= 0) {
-        return basePosition - cardViewPagerHeight * (3 / 7);
+        return basePosition - cardMaxHeight * (8 / 9);
       } else {
-        return basePosition + cardViewPagerHeight * (3 / 7);
+        return basePosition + cardMaxHeight * (8 / 9);
       }
     }
   }
@@ -228,11 +228,16 @@ class CardControllerWidget extends StatelessWidget {
     double diff = (currentPostion - index).abs();
 
     if (diff >= 0.0 && diff < 1.0) {
-      return cardMaxHeight - 120 * ((diff - diff.floor()));
+      return cardMaxHeight - cardMaxHeight * (4 / 5) * ((diff - diff.floor()));
     } else if (diff >= 1.0 && diff < 2.0) {
-      return cardMaxHeight - 120 - 40 * ((diff - diff.floor()));
+      return cardMaxHeight -
+          cardMaxHeight * (4 / 5) -
+          10 * ((diff - diff.floor()));
     } else {
-      final height = cardMaxHeight - 160 - 40 * ((diff - diff.floor()));
+      final height = cardMaxHeight -
+          cardMaxHeight * (4 / 5) -
+          10 -
+          5 * ((diff - diff.floor()));
 
       return height > 0 ? height : 0;
     }
