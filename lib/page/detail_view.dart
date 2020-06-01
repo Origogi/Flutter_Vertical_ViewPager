@@ -40,14 +40,16 @@ class DetailView extends StatelessWidget {
             width: double.infinity,
             height: 180,
             color: Colors.black.withOpacity(0.3),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Text(subject, style: titleTextStyle.copyWith(fontSize: 15)),
-              Text(
-                title,
-                style: titleTextStyle.copyWith(fontSize: 60),
-              ),
-            ]),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(subject, style: titleTextStyle.copyWith(fontSize: 15)),
+                  Text(
+                    title,
+                    style: titleTextStyle.copyWith(fontSize: 60),
+                  ),
+                ]),
           ),
         )
       ]),
