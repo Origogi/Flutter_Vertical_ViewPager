@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:vertical_view_pager/page/detail_view.dart';
+
+final texts = [
+  "Akali",
+  "Camile",
+  "Ezreal",
+  "Irellia",
+  "Poppy",
+  "Zoe",
+];
 
 class VerticalCardPager extends StatefulWidget {
   @override
@@ -66,15 +76,24 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
             int selectedIndex = onTapUp(
                 context, constraints.maxHeight, constraints.maxWidth, details);
 
-            if (selectedIndex >= 0) {
+            if (selectedIndex == 2) {
+              print(
+                  "images/${(texts[currentPosition.toInt()]).toLowerCase()}_lol.gif");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DetailView(
+                          heroTag: texts[currentPosition.toInt()],
+                          imageFileName:
+                              "images/${(texts[currentPosition.toInt()]).toLowerCase()}_lol.gif",
+                        )),
+              );
+            } else if (selectedIndex >= 0) {
               int goToPage = currentPosition.toInt() + selectedIndex - 2;
-              print("Go To : ${goToPage}");
               controller.animateToPage(goToPage,
                   duration: Duration(milliseconds: 300),
                   curve: Curves.easeInOutExpo);
             }
-
-            print(selectedIndex);
           }
         },
         child: Stack(
@@ -181,11 +200,11 @@ class CardControllerWidget extends StatelessWidget {
     //   fit: BoxFit.cover,
     // ),
     Image.asset(
-      "images/ahri_lol.gif",
+      "images/akali_lol.gif",
       fit: BoxFit.cover,
     ),
     Image.asset(
-      "images/ashe_lol.gif",
+      "images/camile_lol.gif",
       fit: BoxFit.cover,
     ),
     Image.asset(
@@ -193,15 +212,11 @@ class CardControllerWidget extends StatelessWidget {
       fit: BoxFit.cover,
     ),
     Image.asset(
-      "images/kind_lol.gif",
+      "images/irellia_lol.gif",
       fit: BoxFit.cover,
     ),
     Image.asset(
-      "images/lux_lol.gif",
-      fit: BoxFit.cover,
-    ),
-    Image.asset(
-      "images/warwick_lol.gif",
+      "images/poppy_lol.gif",
       fit: BoxFit.cover,
     ),
     Image.asset(
@@ -209,8 +224,6 @@ class CardControllerWidget extends StatelessWidget {
       fit: BoxFit.cover,
     ),
   ];
-
-  final texts = ["Ahri", "Ashe", "Ezreal", "Kindred", "Lux", "Warwick", "Zoe"];
 
   final titleTextStyle = TextStyle(
     color: Colors.white,
@@ -232,26 +245,29 @@ class CardControllerWidget extends StatelessWidget {
           textDirection: TextDirection.ltr,
           top: cardTop,
           start: (cardViewPagerWidth / 2) - (cardWidth / 2),
-          child: Opacity(
-            opacity: getOpacity(i),
-            child: Container(
-              width: cardWidth,
-              height: cardHeight,
-              child: Stack(
-                children: <Widget>[
-                  Positioned.fill(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: images[i],
+          child: Hero(
+            tag: texts[i],
+            child: Opacity(
+              opacity: getOpacity(i),
+              child: Container(
+                width: cardWidth,
+                height: cardHeight,
+                child: Stack(
+                  children: <Widget>[
+                    Positioned.fill(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: images[i],
+                      ),
                     ),
-                  ),
-                  Align(
-                      child: Text(
-                    texts[i],
-                    style: titleTextStyle.copyWith(fontSize: getFontSize(i)),
-                    textAlign: TextAlign.center,
-                  )),
-                ],
+                    Align(
+                        child: Text(
+                      texts[i],
+                      style: titleTextStyle.copyWith(fontSize: getFontSize(i)),
+                      textAlign: TextAlign.center,
+                    )),
+                  ],
+                ),
               ),
             ),
           ));
