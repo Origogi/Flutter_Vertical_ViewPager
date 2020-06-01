@@ -41,22 +41,18 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
 
   @override
   void initState() {
-
-
     super.initState();
 
-        controller.addListener(() {
+    controller.addListener(() {
       setState(() {
         currentPosition = controller.page;
         print(currentPosition);
       });
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     return LayoutBuilder(builder: (context, constraints) {
       return GestureDetector(
         onVerticalDragEnd: (details) {
@@ -73,7 +69,9 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
             if (selectedIndex >= 0) {
               int goToPage = currentPosition.toInt() + selectedIndex - 2;
               print("Go To : ${goToPage}");
-              controller.animateToPage( goToPage , duration: Duration(milliseconds: 300), curve: Curves.easeInOutExpo);
+              controller.animateToPage(goToPage,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOutExpo);
             }
 
             print(selectedIndex);
@@ -89,7 +87,7 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
             Positioned.fill(
               child: PageView.builder(
                 scrollDirection: Axis.vertical,
-                itemCount: 6,
+                itemCount: 7,
                 controller: controller,
                 itemBuilder: (context, index) {
                   return Container();
@@ -158,40 +156,61 @@ class CardControllerWidget extends StatelessWidget {
         cardMaxWidth = cardViewPagerHeight * (1 / 2);
 
   static List images = [
+    // Image.asset(
+    //   "images/catalina.png",
+    //   fit: BoxFit.cover,
+    // ),
+    // Image.asset(
+    //   "images/el_capitan.png",
+    //   fit: BoxFit.cover,
+    // ),
+    // Image.asset(
+    //   "images/high_sierra.png",
+    //   fit: BoxFit.cover,
+    // ),
+    // Image.asset(
+    //   "images/mojave.png",
+    //   fit: BoxFit.cover,
+    // ),
+    // Image.asset(
+    //   "images/sierra.png",
+    //   fit: BoxFit.cover,
+    // ),
+    // Image.asset(
+    //   "images/yosemite.png",
+    //   fit: BoxFit.cover,
+    // ),
     Image.asset(
-      "images/catalina.png",
+      "images/ahri_lol.gif",
       fit: BoxFit.cover,
     ),
     Image.asset(
-      "images/el_capitan.png",
+      "images/ashe_lol.gif",
       fit: BoxFit.cover,
     ),
     Image.asset(
-      "images/high_sierra.png",
+      "images/ezreal_lol.gif",
       fit: BoxFit.cover,
     ),
     Image.asset(
-      "images/mojave.png",
+      "images/kind_lol.gif",
       fit: BoxFit.cover,
     ),
     Image.asset(
-      "images/sierra.png",
+      "images/lux_lol.gif",
       fit: BoxFit.cover,
     ),
     Image.asset(
-      "images/yosemite.png",
+      "images/warwick_lol.gif",
+      fit: BoxFit.cover,
+    ),
+    Image.asset(
+      "images/zoe_lol.gif",
       fit: BoxFit.cover,
     ),
   ];
 
-  final texts = [
-    "Catalina",
-    "El Capitan",
-    "High Sierra",
-    "Mojave",
-    "Sierra",
-    "Yosemite",
-  ];
+  final texts = ["Ahri", "Ashe", "Ezreal", "Kindred", "Lux", "Warwick", "Zoe"];
 
   final titleTextStyle = TextStyle(
     color: Colors.white,
