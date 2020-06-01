@@ -3,13 +3,22 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vertical_view_pager/page/detail_view.dart';
 
-final texts = [
-  "Akali",
-  "Camile",
-  "Ezreal",
-  "Irellia",
-  "Poppy",
-  "Zoe",
+final titles = [
+  "AKALI",
+  "CAMILE",
+  "EZREAL",
+  "IRELIA",
+  "POPPY",
+  "ZOE",
+];
+
+final subjects = [
+  "THE ROGUE ASSASSIN",
+  "THE STEEL SHADOW",
+  "THE PRODIGAL EXPLORER",
+  "THE BLADE DANCER",
+  "KEEPER OF THE HAMMER",
+  "THE ASPECT OF TWILIGHT",
 ];
 
 class VerticalCardPager extends StatefulWidget {
@@ -78,14 +87,16 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
 
             if (selectedIndex == 2) {
               print(
-                  "images/${(texts[currentPosition.toInt()]).toLowerCase()}_lol.gif");
+                  "images/${(titles[currentPosition.toInt()]).toLowerCase()}_lol.gif");
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => DetailView(
-                          heroTag: texts[currentPosition.toInt()],
+                          heroTag: titles[currentPosition.toInt()],
+                          title: titles[currentPosition.toInt()],
+                          subject: subjects[currentPosition.toInt()],
                           imageFileName:
-                              "images/${(texts[currentPosition.toInt()]).toLowerCase()}_lol.gif",
+                              "images/${(titles[currentPosition.toInt()]).toLowerCase()}_lol.gif",
                         )),
               );
             } else if (selectedIndex >= 0) {
@@ -212,7 +223,7 @@ class CardControllerWidget extends StatelessWidget {
       fit: BoxFit.cover,
     ),
     Image.asset(
-      "images/irellia_lol.gif",
+      "images/irelia_lol.gif",
       fit: BoxFit.cover,
     ),
     Image.asset(
@@ -246,7 +257,7 @@ class CardControllerWidget extends StatelessWidget {
           top: cardTop,
           start: (cardViewPagerWidth / 2) - (cardWidth / 2),
           child: Hero(
-            tag: texts[i],
+            tag: titles[i],
             child: Opacity(
               opacity: getOpacity(i),
               child: Container(
@@ -262,7 +273,7 @@ class CardControllerWidget extends StatelessWidget {
                     ),
                     Align(
                         child: Text(
-                      texts[i],
+                      titles[i],
                       style: titleTextStyle.copyWith(fontSize: getFontSize(i)),
                       textAlign: TextAlign.center,
                     )),
