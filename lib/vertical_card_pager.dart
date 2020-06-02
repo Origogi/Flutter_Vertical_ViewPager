@@ -81,7 +81,7 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
           isScrolling = true;
         },
         onTapUp: (details) {
-          if (!isScrolling) {
+          if (!isScrolling && currentPosition - currentPosition.floor() == 0) {
             int selectedIndex = onTapUp(
                 context, constraints.maxHeight, constraints.maxWidth, details);
 

@@ -33,7 +33,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       body: SafeArea(
-        child: VerticalCardPager(),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: VerticalCardPager(),
+        ),
       ),
     );
   }

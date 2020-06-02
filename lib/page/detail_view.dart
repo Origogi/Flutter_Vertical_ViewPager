@@ -7,7 +7,7 @@ final titleTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
-class DetailView extends StatelessWidget {
+class DetailView extends StatefulWidget {
   final heroTag;
   final title;
   final subject;
@@ -17,13 +17,32 @@ class DetailView extends StatelessWidget {
       {this.heroTag, this.title, this.subject, this.imageFileName});
 
   @override
+  _DetailViewState createState() => _DetailViewState();
+}
+
+class _DetailViewState extends State<DetailView> {
+  bool init = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        init = true;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print(init);
     return Scaffold(
       body: Stack(children: [
         Hero(
-          tag: heroTag,
+          tag: widget.heroTag,
           child: Image.asset(
-            imageFileName,
+            widget.imageFileName,
             fit: BoxFit.fitHeight,
             height: double.infinity,
             width: double.infinity,
@@ -35,22 +54,29 @@ class DetailView extends StatelessWidget {
             child: CustomBackButton()),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            width: double.infinity,
-            height: 180,
-            color: Colors.black.withOpacity(0.3),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(subject, style: titleTextStyle.copyWith(fontSize: 15)),
-                  SizedBox(height: 10,),
-                  Text(
-                    title,
-                    style: titleTextStyle.copyWith(fontSize: 60),
-                  ),
-                ]),
+          child: AnimatedOpacity(
+            duration: Duration(milliseconds: 500),
+            opacity: init ? 1.0 : 0.0,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              width: double.infinity,
+              height: 180,
+              color: Colors.black.withOpacity(0.3),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(widget.subject,
+                        style: titleTextStyle.copyWith(fontSize: 15)),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      widget.title,
+                      style: titleTextStyle.copyWith(fontSize: 60),
+                    ),
+                  ]),
+            ),
           ),
         )
       ]),
