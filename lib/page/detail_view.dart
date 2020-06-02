@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 final titleTextStyle = TextStyle(
   color: Colors.white,
-  fontFamily: 'Bevan',
+  fontFamily: 'Friz',
   fontWeight: FontWeight.bold,
 );
 
@@ -45,6 +45,7 @@ class DetailView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(subject, style: titleTextStyle.copyWith(fontSize: 15)),
+                  SizedBox(height: 10,),
                   Text(
                     title,
                     style: titleTextStyle.copyWith(fontSize: 60),

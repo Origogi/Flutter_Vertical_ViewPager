@@ -51,3 +51,6 @@ flutter:
     - family: "Bevan"
       fonts:
         - asset: fonts/Bevan-Regular.ttf
+    - family: "Friz"
+      fonts:
+        - asset: fonts/Friz Quadrata Std Italic.otf

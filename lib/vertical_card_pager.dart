@@ -238,7 +238,7 @@ class CardControllerWidget extends StatelessWidget {
 
   final titleTextStyle = TextStyle(
     color: Colors.white,
-    fontFamily: 'Bevan',
+    fontFamily: 'Friz',
     fontWeight: FontWeight.bold,
   );
 
