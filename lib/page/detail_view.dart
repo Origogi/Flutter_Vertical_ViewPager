@@ -66,14 +66,16 @@ class _DetailViewState extends State<DetailView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(widget.subject,
-                        style: titleTextStyle.copyWith(fontSize: 15)),
+                    Text(
+                      widget.subject,
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
                       widget.title,
-                      style: titleTextStyle.copyWith(fontSize: 60),
+                      style: Theme.of(context).textTheme.headline1,
                     ),
                   ]),
             ),
