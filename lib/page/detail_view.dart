@@ -1,4 +1,3 @@
-import 'package:drawing_animation/drawing_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -21,13 +20,29 @@ class DetailView extends StatefulWidget {
   _DetailViewState createState() => _DetailViewState();
 }
 
-class _DetailViewState extends State<DetailView> {
+class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
   bool init = false;
-  bool run = true;
+
+  Animation<double> animation;
+  AnimationController controller;
 
   @override
   void initState() {
     super.initState();
+
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 10),
+    );
+
+    Tween<double> tween = Tween(begin: 0.0, end: 400.0);
+
+    animation = tween.animate(controller)
+      ..addListener(() {
+        setState(() {});
+      });
+
+    controller.forward();
 
     Future.delayed(const Duration(milliseconds: 500), () {
       setState(() {
@@ -56,14 +71,21 @@ class _DetailViewState extends State<DetailView> {
             child: CustomBackButton()),
         Align(
           alignment: Alignment.bottomCenter,
+          child: Container(
+              padding: EdgeInsets.all(10),
+              width: double.infinity,
+              height: 250,
+              child: AnimatedBorder(animation: animation)),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
           child: AnimatedOpacity(
             duration: Duration(milliseconds: 500),
             opacity: init ? 1.0 : 0.0,
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              margin: EdgeInsets.only(bottom: 185),
               width: double.infinity,
-              height: 180,
-              color: Colors.black.withOpacity(0.3),
+              height: 120,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,27 +105,34 @@ class _DetailViewState extends State<DetailView> {
             ),
           ),
         ),
-        // CustomPaint(
-        //   //                       <-- CustomPaint widget
-        //   size: Size(300, 300),
-        //   painter: MyPainter(),
-        // )
-        AnimatedDrawing.paths(
-          [Path()..addRect(Rect.fromLTWH(0, 0, 100, 100))],
-          paints: [
-            Paint()
-              ..color = Colors.black
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 4
-          ],
-          run: this.run,
-          duration: new Duration(seconds: 3),
-          onFinish: () => setState(() {
-            this.run = false;
-          }),
-        )
       ]),
     );
+  }
+}
+
+class AnimatedBorder extends StatelessWidget {
+  const AnimatedBorder({
+    @required this.animation,
+  });
+
+  final Animation<double> animation;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (context, constraints) {
+      return AnimatedBuilder(
+        animation: animation,
+        builder: (context, snapshot) {
+          return CustomPaint(
+            painter: MyPainter(value: animation.value),
+            child: Container(
+              width: constraints.maxWidth,
+              height: constraints.maxHeight,
+            ),
+          );
+        },
+      );
+    });
   }
 }
 
@@ -131,17 +160,74 @@ class CustomBackButton extends StatelessWidget {
 }
 
 class MyPainter extends CustomPainter {
-  //         <-- CustomPainter class
+  final double value;
+
+  MyPainter({this.value});
+
+  final paintBorder = Paint()
+    ..color = Colors.white54
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 1.5;
+
+  final transparentBorder = Paint()
+    ..color = Colors.transparent
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 1.5;
+
   @override
   void paint(Canvas canvas, Size size) {
-    //                                       <-- Insert your painting code here.
-    final path = Path()..addRect(Rect.fromLTWH(0, 0, 100, 100));
+    var path = Path();
 
-    final paint = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 4;
-    canvas.drawPath(path, paint);
+    if (value < 100) {
+      double lineValue = size.width * value / 100;
+      path.lineTo(lineValue, 0);
+      canvas.drawPath(path, paintBorder);
+      return;
+    } else {
+      path.lineTo(size.width, 0);
+      canvas.drawPath(path, paintBorder);
+    }
+
+
+    path = Path();
+    path.moveTo(size.width, 0);
+
+    if (value < 200) {
+      double lineValue = size.height * (value - 100) / 100;
+      path.lineTo(size.width, lineValue);
+      canvas.drawPath(path, paintBorder);
+      return;
+    } else {
+      path.lineTo(size.width, size.height);
+      canvas.drawPath(path, paintBorder);
+    }
+
+    path = Path();
+    path.moveTo(size.width, size.height);
+
+    if (value < 300) {
+      double lineValue = size.width - size.width * (value - 200) / 100;
+      path.lineTo(lineValue, size.height);
+      canvas.drawPath(path, paintBorder);
+      return;
+    } else {
+      path.lineTo(0, size.height);
+      canvas.drawPath(path, paintBorder);
+    }
+
+        path = Path();
+    path.moveTo(0, size.height);
+
+    if (value < 400) {
+      double lineValue = size.height - size.height * (value - 300) / 100;
+      path.lineTo(0, lineValue);
+      canvas.drawPath(path, paintBorder);
+      return;
+    } else {
+      path.lineTo(0, 0);
+          canvas.drawPath(path, paintBorder);
+
+    }
   }
 
   @override
