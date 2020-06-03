@@ -1,3 +1,4 @@
+import 'package:drawing_animation/drawing_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -22,6 +23,7 @@ class DetailView extends StatefulWidget {
 
 class _DetailViewState extends State<DetailView> {
   bool init = false;
+  bool run = true;
 
   @override
   void initState() {
@@ -80,6 +82,25 @@ class _DetailViewState extends State<DetailView> {
                   ]),
             ),
           ),
+        ),
+        // CustomPaint(
+        //   //                       <-- CustomPaint widget
+        //   size: Size(300, 300),
+        //   painter: MyPainter(),
+        // )
+        AnimatedDrawing.paths(
+          [Path()..addRect(Rect.fromLTWH(0, 0, 100, 100))],
+          paints: [
+            Paint()
+              ..color = Colors.black
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 4
+          ],
+          run: this.run,
+          duration: new Duration(seconds: 3),
+          onFinish: () => setState(() {
+            this.run = false;
+          }),
         )
       ]),
     );
@@ -106,5 +127,25 @@ class CustomBackButton extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class MyPainter extends CustomPainter {
+  //         <-- CustomPainter class
+  @override
+  void paint(Canvas canvas, Size size) {
+    //                                       <-- Insert your painting code here.
+    final path = Path()..addRect(Rect.fromLTWH(0, 0, 100, 100));
+
+    final paint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4;
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter old) {
+    return false;
   }
 }
