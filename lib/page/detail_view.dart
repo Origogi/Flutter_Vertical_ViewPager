@@ -32,7 +32,7 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
 
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 10),
+      duration: Duration(seconds: 1),
     );
 
     Tween<double> tween = Tween(begin: 0.0, end: 400.0);
@@ -72,7 +72,7 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
               width: double.infinity,
               height: 250,
               child: AnimatedBorder(animation: animation)),
@@ -178,7 +178,33 @@ class MyPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var path = Path();
 
-    if (value < 100) {
+    if (value < 15) {
+      double lineValue = size.width * value / 100;
+      path.lineTo(lineValue, 0);
+      canvas.drawPath(path, paintBorder);
+      return;
+    } else {
+      path.lineTo(size.width * 15 / 100, 0);
+      canvas.drawPath(path, paintBorder);
+    }
+
+    path = Path();
+    path.moveTo(size.width * 15 / 100, 0);
+
+    if (value >= 15 && value <= 85) {
+      double lineValue = size.width * value / 100;
+      path.lineTo(lineValue, 0);
+      canvas.drawPath(path, transparentBorder);
+      return;
+    } else {
+      path.lineTo(size.width * 85 / 100, 0);
+      canvas.drawPath(path, transparentBorder);
+    }
+
+    path = Path();
+    path.moveTo(size.width * 85 / 100, 0);
+
+    if (value > 85 && value < 100) {
       double lineValue = size.width * value / 100;
       path.lineTo(lineValue, 0);
       canvas.drawPath(path, paintBorder);
@@ -187,10 +213,6 @@ class MyPainter extends CustomPainter {
       path.lineTo(size.width, 0);
       canvas.drawPath(path, paintBorder);
     }
-
-
-    path = Path();
-    path.moveTo(size.width, 0);
 
     if (value < 200) {
       double lineValue = size.height * (value - 100) / 100;
@@ -215,7 +237,7 @@ class MyPainter extends CustomPainter {
       canvas.drawPath(path, paintBorder);
     }
 
-        path = Path();
+    path = Path();
     path.moveTo(0, size.height);
 
     if (value < 400) {
@@ -225,8 +247,7 @@ class MyPainter extends CustomPainter {
       return;
     } else {
       path.lineTo(0, 0);
-          canvas.drawPath(path, paintBorder);
-
+      canvas.drawPath(path, paintBorder);
     }
   }
 
