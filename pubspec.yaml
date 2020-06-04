@@ -48,7 +48,8 @@ flutter:
   
   assets: 
     - images/
-  
+    - images/role/
+
   fonts:
     - family: "Bevan"
       fonts:

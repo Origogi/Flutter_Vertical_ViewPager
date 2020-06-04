@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-final titleTextStyle = TextStyle(
-  color: Colors.white,
-  fontFamily: 'Friz',
-  fontWeight: FontWeight.bold,
-);
-
 class DetailView extends StatefulWidget {
   final heroTag;
   final title;
@@ -71,11 +65,43 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
             child: CustomBackButton()),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Container(
-              padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
-              width: double.infinity,
-              height: 250,
-              child: AnimatedBorder(animation: animation)),
+          child: Stack(
+            children: [
+              Container(
+                  padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
+                  width: double.infinity,
+                  height: 250,
+                  child: Stack(
+                    children: [
+                      AnimatedBorder(animation: animation),
+                      Align(
+                        alignment: Alignment.center,
+                        child: AnimatedOpacity(
+                          opacity: init ? 1 : 0,
+                          duration: Duration(milliseconds: 500),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset("images/role/fighter.png",
+                                    width: 60, height: 60),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  "ROLE",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 15),
+                                ),
+                                Text("FIGHTER",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15))
+                              ]),
+                        ),
+                      )
+                    ],
+                  )),
+            ],
+          ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
