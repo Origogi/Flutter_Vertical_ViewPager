@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vertical_view_pager/model/champion.dart';
@@ -50,7 +52,7 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     print(init);
 
-  final champ = championsMap[widget.title.toLowerCase()];
+    final champ = championsMap[widget.title.toLowerCase()];
 
     return Scaffold(
       body: Stack(children: [
@@ -77,6 +79,22 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                   height: 250,
                   child: Stack(
                     children: [
+                      AnimatedOpacity(
+                        opacity: init ? 1 : 0,
+                        duration: Duration(milliseconds: 200),
+                        child: ClipRect(
+                          child: new BackdropFilter(
+                            filter:
+                                new ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                            child: new Container(
+                              width: double.infinity,
+                              height: double.infinity,
+                              decoration: new BoxDecoration(
+                                  color: Colors.black.withOpacity(0.4)),
+                            ),
+                          ),
+                        ),
+                      ),
                       AnimatedBorder(animation: animation),
                       Align(
                         alignment: Alignment.center,
@@ -86,8 +104,10 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("images/role/${champ.role.toString().split(".")[1].toLowerCase()}.png",
-                                    width: 60, height: 60),
+                                Image.asset(
+                                    "images/role/${champ.role.toString().split(".")[1].toLowerCase()}.png",
+                                    width: 60,
+                                    height: 60),
                                 SizedBox(
                                   height: 20,
                                 ),
