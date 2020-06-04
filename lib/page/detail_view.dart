@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:vertical_view_pager/model/champion.dart';
 
 class DetailView extends StatefulWidget {
   final heroTag;
-  final title;
+  final String title;
   final subject;
   final imageFileName;
 
@@ -48,6 +49,9 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     print(init);
+
+  final champ = championsMap[widget.title.toLowerCase()];
+
     return Scaffold(
       body: Stack(children: [
         Hero(
@@ -82,7 +86,7 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("images/role/fighter.png",
+                                Image.asset("images/role/${champ.role.toString().split(".")[1].toLowerCase()}.png",
                                     width: 60, height: 60),
                                 SizedBox(
                                   height: 20,
@@ -92,7 +96,7 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 15),
                                 ),
-                                Text("FIGHTER",
+                                Text(champ.role.toString().split(".")[1],
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 15))
                               ]),

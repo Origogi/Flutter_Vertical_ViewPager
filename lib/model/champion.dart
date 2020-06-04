@@ -9,16 +9,16 @@ class Champion {
 }
 
 final championsMap = {
-  "Akali": Champion(
+  "akali": Champion(
       name: "Akali", role: Role.ASSASIN, difficulty: Difficulty.MODERATE),
-  "Camile": Champion(
+  "camile": Champion(
       name: "Camile", role: Role.FIGHTER, difficulty: Difficulty.MODERATE),
-  "Ezreal": Champion(
+  "ezreal": Champion(
       name: "Ezreal", role: Role.MARKSMAN, difficulty: Difficulty.MODERATE),
-  "Zoe": Champion(
+  "zoe": Champion(
       name: "Zoe", role: Role.MAGE, difficulty: Difficulty.HIGH),
-  "Irelia": Champion(
+  "irelia": Champion(
       name: "Irelia", role: Role.FIGHTER, difficulty: Difficulty.MODERATE),
-  "Poppy": Champion(
+  "poppy": Champion(
       name: "Poppy", role: Role.TANKER, difficulty: Difficulty.MODERATE),
 };
