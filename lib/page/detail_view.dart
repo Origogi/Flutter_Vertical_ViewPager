@@ -1,7 +1,9 @@
 import 'dart:ui';
 
+import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:vertical_view_pager/constant/constant.dart';
 import 'package:vertical_view_pager/model/champion.dart';
 
 class DetailView extends StatefulWidget {
@@ -49,113 +51,175 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     print(init);
 
     final champ = championsMap[widget.title.toLowerCase()];
 
     return Scaffold(
-      body: Stack(children: [
-        Hero(
-          tag: widget.heroTag,
-          child: Image.asset(
-            widget.imageFileName,
-            fit: BoxFit.fitHeight,
-            height: double.infinity,
-            width: double.infinity,
-            alignment: Alignment.center,
-          ),
-        ),
-        Padding(
-            padding: EdgeInsets.only(left: 5, top: 45),
-            child: CustomBackButton()),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Stack(
-            children: [
-              Container(
-                  padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
-                  width: double.infinity,
-                  height: 250,
-                  child: Stack(
-                    children: [
-                      AnimatedOpacity(
-                        opacity: init ? 1 : 0,
-                        duration: Duration(milliseconds: 200),
-                        child: ClipRect(
-                          child: new BackdropFilter(
-                            filter:
-                                new ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                            child: new Container(
-                              width: double.infinity,
-                              height: double.infinity,
-                              decoration: new BoxDecoration(
-                                  color: Colors.black.withOpacity(0.4)),
-                            ),
-                          ),
-                        ),
-                      ),
-                      AnimatedBorder(animation: animation),
-                      Align(
-                        alignment: Alignment.center,
-                        child: AnimatedOpacity(
-                          opacity: init ? 1 : 0,
-                          duration: Duration(milliseconds: 500),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                    "images/role/${champ.role.toString().split(".")[1].toLowerCase()}.png",
-                                    width: 60,
-                                    height: 60),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  "ROLE",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 15),
-                                ),
-                                Text(champ.role.toString().split(".")[1],
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 15))
-                              ]),
-                        ),
-                      )
-                    ],
-                  )),
-            ],
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: AnimatedOpacity(
-            duration: Duration(milliseconds: 500),
-            opacity: init ? 1.0 : 0.0,
-            child: Container(
-              margin: EdgeInsets.only(bottom: 185),
-              width: double.infinity,
-              height: 120,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      widget.subject,
-                      style: Theme.of(context).textTheme.headline2,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      widget.title,
-                      style: Theme.of(context).textTheme.headline1,
-                    ),
-                  ]),
+      backgroundColor: backgoundColor,
+      body: SafeArea(
+        child: Stack(children: [
+          Hero(
+            tag: widget.heroTag,
+            child: ShaderMask(
+              shaderCallback: (rect) {
+                return LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [backgoundColor, Colors.transparent],
+                ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+              },
+              blendMode: BlendMode.dstIn,
+              child: Image.asset(
+                widget.imageFileName,
+                fit: BoxFit.fitWidth,
+                width: double.infinity,
+              ),
             ),
           ),
-        ),
-      ]),
+          Padding(
+              padding: EdgeInsets.only(left: 5, top: 45),
+              child: CustomBackButton()),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Stack(
+              children: [
+                Container(
+                    padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
+                    width: double.infinity,
+                    height: 320,
+                    child: Stack(
+                      children: [
+                        AnimatedBorder(animation: animation),
+                        Align(
+                          alignment: Alignment.center,
+                          child: AnimatedOpacity(
+                            opacity: init ? 1 : 0,
+                            duration: Duration(milliseconds: 500),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                          "images/role/${champ.role.toString().split(".")[1].toLowerCase()}.png",
+                                          width: 60,
+                                          height: 60),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        "ROLE",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 15),
+                                      ),
+                                      Text(champ.role.toString().split(".")[1],
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15))
+                                    ]),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 60,
+                                      child: Center(
+                                        child: Stack(children: [
+                                          Parallelogram(
+                                            cutLength: 10.0,
+                                            edge: Edge.RIGHT,
+                                            child: Container(
+                                              color: difficultyEnableColor,
+                                              width: 25.0,
+                                              height: 10.0,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 16),
+                                            child: Parallelogram(
+                                              cutLength: 10.0,
+                                              edge: Edge.RIGHT,
+                                              child: Container(
+                                                color: difficultyEnableColor,
+                                                width: 25.0,
+                                                height: 10.0,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 32),
+                                            child: Parallelogram(
+                                              cutLength: 10.0,
+                                              edge: Edge.RIGHT,
+                                              child: Container(
+                                                color: difficultyDisableColor,
+                                                width: 25.0,
+                                                height: 10.0,
+                                              ),
+                                            ),
+                                          ),
+                                        ]),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      "DIFFICULTY",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15),
+                                    ),
+                                    Text("MODERATE",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 15))
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    )),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: AnimatedOpacity(
+              duration: Duration(milliseconds: 500),
+              opacity: init ? 1.0 : 0.0,
+              child: Container(
+                margin: EdgeInsets.only(bottom: 185),
+                width: double.infinity,
+                height: 270,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.subject,
+                        style: Theme.of(context).textTheme.headline2,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        widget.title,
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
+                    ]),
+              ),
+            ),
+          ),
+        ]),
+      ),
     );
   }
 }
