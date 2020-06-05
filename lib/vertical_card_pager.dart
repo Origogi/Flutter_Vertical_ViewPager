@@ -28,17 +28,13 @@ class VerticalCardPager extends StatefulWidget {
 
 class _VerticalCardPagerState extends State<VerticalCardPager> {
   bool isScrolling = false;
-
   double currentPosition = 2.0;
-
   PageController controller = PageController(initialPage: 2);
 
   int onTapUp(
       BuildContext context, double maxHeight, double maxWidth, details) {
-    print('${details.globalPosition}');
     final RenderBox box = context.findRenderObject();
     final Offset localOffset = box.globalToLocal(details.globalPosition);
-    print("local offset ${localOffset.dx}, ${localOffset.dy}");
 
     double dx = localOffset.dx;
     double dy = localOffset.dy;
@@ -186,30 +182,6 @@ class CardControllerWidget extends StatelessWidget {
         cardMaxWidth = cardViewPagerHeight * (1 / 2);
 
   static List images = [
-    // Image.asset(
-    //   "images/catalina.png",
-    //   fit: BoxFit.cover,
-    // ),
-    // Image.asset(
-    //   "images/el_capitan.png",
-    //   fit: BoxFit.cover,
-    // ),
-    // Image.asset(
-    //   "images/high_sierra.png",
-    //   fit: BoxFit.cover,
-    // ),
-    // Image.asset(
-    //   "images/mojave.png",
-    //   fit: BoxFit.cover,
-    // ),
-    // Image.asset(
-    //   "images/sierra.png",
-    //   fit: BoxFit.cover,
-    // ),
-    // Image.asset(
-    //   "images/yosemite.png",
-    //   fit: BoxFit.cover,
-    // ),
     Image.asset(
       "images/akali_lol.gif",
       fit: BoxFit.cover,
