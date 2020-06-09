@@ -18,5 +18,5 @@ const textTheme = TextTheme(
   headline1: TextStyle(
       fontSize: 60.0, fontWeight: FontWeight.bold, color: Colors.white),
   headline2: TextStyle(
-      fontSize: 14.0, fontWeight: FontWeight.bold, color: Colors.white),
+      fontSize: 12.0, fontWeight: FontWeight.normal, color: Colors.white),
 );

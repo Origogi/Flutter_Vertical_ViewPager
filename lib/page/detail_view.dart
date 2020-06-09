@@ -7,8 +7,6 @@ import 'package:vertical_view_pager/constant/constant.dart';
 import 'package:vertical_view_pager/model/champion.dart';
 
 class DetailView extends StatefulWidget {
-
-
   final Champion champion;
 
   const DetailView({this.champion});
@@ -18,11 +16,10 @@ class DetailView extends StatefulWidget {
 }
 
 class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
-  
   final Champion champion;
 
   _DetailViewState({this.champion});
-  
+
   bool init = false;
 
   Animation<double> animation;
@@ -31,7 +28,6 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
 
     controller = AnimationController(
       vsync: this,
@@ -61,6 +57,7 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    print(champion.description);
 
     return Scaffold(
       backgroundColor: backgoundColor,
@@ -103,62 +100,72 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                           child: AnimatedOpacity(
                             opacity: init ? 1 : 0,
                             duration: Duration(milliseconds: 500),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                          "images/role/${champion.role.toString().split(".")[1].toLowerCase()}.png",
-                                          width: 60,
-                                          height: 60),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        "ROLE",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
-                                      ),
-                                      Text(
-                                          champion.role
-                                              .toString()
-                                              .split(".")[1],
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15))
-                                    ]),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 60,
-                                      child: Center(
-                                        child: DifficultyGraph(
-                                            count: widget
-                                                .champion.difficulty.index),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text(
-                                      "DIFFICULTY",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 15),
-                                    ),
-                                    Text(
-                                        champion.difficulty
-                                            .toString()
-                                            .split(".")[1]
-                                            .toUpperCase(),
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15))
-                                  ],
-                                )
-                              ],
-                            ),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                                "images/role/${champion.role.toString().split(".")[1].toLowerCase()}.png",
+                                                width: 40,
+                                                height: 40),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text("ROLE",
+                                                style: textTheme.headline2),
+                                            Text(
+                                                champion.role
+                                                    .toString()
+                                                    .split(".")[1],
+                                                style: textTheme.headline2)
+                                          ]),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            height: 40,
+                                            child: Center(
+                                              child: DifficultyGraph(
+                                                  count: widget.champion
+                                                      .difficulty.index),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            "DIFFICULTY",
+                                            style: textTheme.headline2,
+                                          ),
+                                          Text(
+                                            champion.difficulty
+                                                .toString()
+                                                .split(".")[1]
+                                                .toUpperCase(),
+                                            style: textTheme.headline2,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: 30),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20, right: 20, bottom: 30),
+                                    child: Text(champion.description,
+                                        style: textTheme.headline2,
+                                        maxLines: 6,
+                                        overflow: TextOverflow.ellipsis),
+                                  )
+                                ]),
                           ),
                         )
                       ],
