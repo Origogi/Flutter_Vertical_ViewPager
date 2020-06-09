@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:vertical_view_pager/model/champion.dart';
 import 'package:vertical_view_pager/page/detail_view.dart';
 
 final titles = [
@@ -10,15 +11,6 @@ final titles = [
   "IRELIA",
   "POPPY",
   "ZOE",
-];
-
-final subjects = [
-  "THE ROGUE ASSASSIN",
-  "THE STEEL SHADOW",
-  "THE PRODIGAL EXPLORER",
-  "THE BLADE DANCER",
-  "KEEPER OF THE HAMMER",
-  "THE ASPECT OF TWILIGHT",
 ];
 
 class VerticalCardPager extends StatefulWidget {
@@ -82,17 +74,12 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
                 context, constraints.maxHeight, constraints.maxWidth, details);
 
             if (selectedIndex == 2) {
-              print(
-                  "images/${(titles[currentPosition.toInt()]).toLowerCase()}_lol.gif");
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => DetailView(
-                          heroTag: titles[currentPosition.toInt()],
-                          title: titles[currentPosition.toInt()],
-                          subject: subjects[currentPosition.toInt()],
-                          imageFileName:
-                              "images/${(titles[currentPosition.toInt()]).toLowerCase()}_lol.gif",
+                          champion:
+                              championsMap[titles[currentPosition.toInt()].toLowerCase()],
                         )),
               );
             } else if (selectedIndex >= 0) {

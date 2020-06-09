@@ -7,19 +7,22 @@ import 'package:vertical_view_pager/constant/constant.dart';
 import 'package:vertical_view_pager/model/champion.dart';
 
 class DetailView extends StatefulWidget {
-  final heroTag;
-  final String title;
-  final subject;
-  final imageFileName;
 
-  const DetailView(
-      {this.heroTag, this.title, this.subject, this.imageFileName});
+
+  final Champion champion;
+
+  const DetailView({this.champion});
 
   @override
-  _DetailViewState createState() => _DetailViewState();
+  _DetailViewState createState() => _DetailViewState(champion: champion);
 }
 
 class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
+  
+  final Champion champion;
+
+  _DetailViewState({this.champion});
+  
   bool init = false;
 
   Animation<double> animation;
@@ -28,6 +31,7 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
 
     controller = AnimationController(
       vsync: this,
@@ -57,16 +61,13 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print(init);
-
-    final champ = championsMap[widget.title.toLowerCase()];
 
     return Scaffold(
       backgroundColor: backgoundColor,
       body: SafeArea(
         child: Stack(children: [
           Hero(
-            tag: widget.heroTag,
+            tag: champion.name,
             child: ShaderMask(
               shaderCallback: (rect) {
                 return LinearGradient(
@@ -77,7 +78,7 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
               },
               blendMode: BlendMode.dstIn,
               child: Image.asset(
-                widget.imageFileName,
+                "images/${champion.name.toLowerCase()}_lol.gif",
                 fit: BoxFit.fitWidth,
                 width: double.infinity,
               ),
@@ -109,7 +110,7 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Image.asset(
-                                          "images/role/${champ.role.toString().split(".")[1].toLowerCase()}.png",
+                                          "images/role/${champion.role.toString().split(".")[1].toLowerCase()}.png",
                                           width: 60,
                                           height: 60),
                                       SizedBox(
@@ -120,7 +121,10 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 15),
                                       ),
-                                      Text(champ.role.toString().split(".")[1],
+                                      Text(
+                                          champion.role
+                                              .toString()
+                                              .split(".")[1],
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 15))
@@ -131,41 +135,9 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                                     Container(
                                       height: 60,
                                       child: Center(
-                                        child: Stack(children: [
-                                          Parallelogram(
-                                            cutLength: 10.0,
-                                            edge: Edge.RIGHT,
-                                            child: Container(
-                                              color: difficultyEnableColor,
-                                              width: 25.0,
-                                              height: 10.0,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 16),
-                                            child: Parallelogram(
-                                              cutLength: 10.0,
-                                              edge: Edge.RIGHT,
-                                              child: Container(
-                                                color: difficultyEnableColor,
-                                                width: 25.0,
-                                                height: 10.0,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 32),
-                                            child: Parallelogram(
-                                              cutLength: 10.0,
-                                              edge: Edge.RIGHT,
-                                              child: Container(
-                                                color: difficultyDisableColor,
-                                                width: 25.0,
-                                                height: 10.0,
-                                              ),
-                                            ),
-                                          ),
-                                        ]),
+                                        child: DifficultyGraph(
+                                            count: widget
+                                                .champion.difficulty.index),
                                       ),
                                     ),
                                     SizedBox(
@@ -176,7 +148,11 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 15),
                                     ),
-                                    Text("MODERATE",
+                                    Text(
+                                        champion.difficulty
+                                            .toString()
+                                            .split(".")[1]
+                                            .toUpperCase(),
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 15))
                                   ],
@@ -204,14 +180,14 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        widget.subject,
+                        champion.nickName,
                         style: Theme.of(context).textTheme.headline2,
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       Text(
-                        widget.title,
+                        champion.name.toUpperCase(),
                         style: Theme.of(context).textTheme.headline1,
                       ),
                     ]),
@@ -221,6 +197,50 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
         ]),
       ),
     );
+  }
+}
+
+class DifficultyGraph extends StatelessWidget {
+  final count;
+  const DifficultyGraph({this.count});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(children: [
+      Parallelogram(
+        cutLength: 10.0,
+        edge: Edge.RIGHT,
+        child: Container(
+          color: difficultyEnableColor,
+          width: 25.0,
+          height: 10.0,
+        ),
+      ),
+      Padding(
+        padding: EdgeInsets.only(left: 16),
+        child: Parallelogram(
+          cutLength: 10.0,
+          edge: Edge.RIGHT,
+          child: Container(
+            color: count > 0 ? difficultyEnableColor : difficultyDisableColor,
+            width: 25.0,
+            height: 10.0,
+          ),
+        ),
+      ),
+      Padding(
+        padding: EdgeInsets.only(left: 32),
+        child: Parallelogram(
+          cutLength: 10.0,
+          edge: Edge.RIGHT,
+          child: Container(
+            color: count > 1 ? difficultyEnableColor : difficultyDisableColor,
+            width: 25.0,
+            height: 10.0,
+          ),
+        ),
+      ),
+    ]);
   }
 }
 
