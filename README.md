@@ -19,8 +19,7 @@ Vertical viewpager
 ## TODO
 
 - [x] Make proto type
-- [ ] Add init animation
-- [ ] Add dispose animation
 - [x] Add or Remove Item effect
 - [x] Add round edge in each item view
-- [ ] Handle touch event
+- [x] Handle touch event
+- [ ] deploy plug in
