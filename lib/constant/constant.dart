@@ -16,7 +16,7 @@ final difficultyDisableColor = Color(0xff023240);
 
 const textTheme = TextTheme(
   headline1: TextStyle(
-      fontSize: 60.0, fontWeight: FontWeight.bold, color: Colors.white),
+      fontSize: 60.0, fontWeight: FontWeight.bold, color: Colors.white, fontStyle: FontStyle.italic),
   headline2: TextStyle(
       fontSize: 12.0, fontWeight: FontWeight.normal, color: Colors.white),
 );

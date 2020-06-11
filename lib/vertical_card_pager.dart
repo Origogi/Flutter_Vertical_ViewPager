@@ -211,12 +211,15 @@ class CardControllerWidget extends StatelessWidget {
 
       var cardTop = getTop(cardHeight, cardViewPagerHeight, i);
 
+
+      final champ = championsMap[titles[i].toLowerCase()];
+
       Widget card = Positioned.directional(
           textDirection: TextDirection.ltr,
           top: cardTop,
           start: (cardViewPagerWidth / 2) - (cardWidth / 2),
           child: Hero(
-            tag: titles[i],
+            tag: champ.name,
             child: Opacity(
               opacity: getOpacity(i),
               child: Container(

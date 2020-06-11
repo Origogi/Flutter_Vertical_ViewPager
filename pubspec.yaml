@@ -48,6 +48,8 @@ flutter:
     - family: "Bevan"
       fonts:
         - asset: fonts/Bevan-Regular.ttf
-    - family: "Friz"
+    - family: "lol"
       fonts:
+        - asset: fonts/Roboto-Medium.ttf
         - asset: fonts/Friz Quadrata Std Italic.otf
+          style: italic
