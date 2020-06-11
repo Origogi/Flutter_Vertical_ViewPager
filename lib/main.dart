@@ -16,8 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: 'lol',
-        textTheme: textTheme
-        ,
+        textTheme: textTheme,
       ),
       home: MyHomePage(),
     );
@@ -33,11 +32,29 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgoundColor,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: VerticalCardPager(),
+        child: Column(
+          children: <Widget>[
+            Container(
+              color: backgoundColor,
+              width: double.infinity,
+              height: 60,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                    child: Image.asset(
+                  "images/logo.png",
+                  fit: BoxFit.cover,
+                )),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                child: VerticalCardPager(),
+              ),
+            ),
+          ],
         ),
       ),
     );

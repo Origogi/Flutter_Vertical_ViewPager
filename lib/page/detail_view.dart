@@ -36,10 +36,11 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
 
     Tween<double> tween = Tween(begin: 0.0, end: 400.0);
 
-    animation = tween.animate(controller)
-      ..addListener(() {
-        setState(() {});
-      });
+    animation = tween
+        .animate(CurvedAnimation(parent: controller, curve: Curves.easeInExpo))
+          ..addListener(() {
+            setState(() {});
+          });
 
     controller.forward();
 
@@ -100,72 +101,82 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                           child: AnimatedOpacity(
                             opacity: init ? 1 : 0,
                             duration: Duration(milliseconds: 500),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      Column(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top : 50.0),
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset(
+                                                  "images/role/${champion.role.toString().split(".")[1].toLowerCase()}.png",
+                                                  width: 40,
+                                                  height: 40),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text("ROLE",
+                                                  style: textTheme.headline3),
+                                              Text(
+                                                  champion.role
+                                                      .toString()
+                                                      .split(".")[1],
+                                                  style: textTheme.headline3
+                                                      .copyWith(
+                                                          color:
+                                                              Color(0xffAE914B)))
+                                            ]),
+                                        Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: [
-                                            Image.asset(
-                                                "images/role/${champion.role.toString().split(".")[1].toLowerCase()}.png",
-                                                width: 40,
-                                                height: 40),
+                                          children: <Widget>[
+                                            Container(
+                                              height: 40,
+                                              child: Center(
+                                                child: DifficultyGraph(
+                                                    count: widget.champion
+                                                        .difficulty.index),
+                                              ),
+                                            ),
                                             SizedBox(
                                               height: 20,
                                             ),
-                                            Text("ROLE",
-                                                style: textTheme.headline2),
                                             Text(
-                                                champion.role
-                                                    .toString()
-                                                    .split(".")[1],
-                                                style: textTheme.headline2)
-                                          ]),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Container(
-                                            height: 40,
-                                            child: Center(
-                                              child: DifficultyGraph(
-                                                  count: widget.champion
-                                                      .difficulty.index),
+                                              "DIFFICULTY",
+                                              style: textTheme.headline3,
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Text(
-                                            "DIFFICULTY",
-                                            style: textTheme.headline2,
-                                          ),
-                                          Text(
-                                            champion.difficulty
-                                                .toString()
-                                                .split(".")[1]
-                                                .toUpperCase(),
-                                            style: textTheme.headline2,
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(height: 30),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20, right: 20, bottom: 30),
-                                    child: Text(champion.description,
-                                        style: textTheme.headline2,
-                                        maxLines: 6,
-                                        overflow: TextOverflow.ellipsis),
-                                  )
-                                ]),
+                                            Text(
+                                                champion.difficulty
+                                                    .toString()
+                                                    .split(".")[1]
+                                                    .toUpperCase(),
+                                                style: textTheme.headline3
+                                                    .copyWith(
+                                                        color: Color(0xffAE914B)))
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal :30.0),
+                                      child: Divider(color: Colors.white, height: 1,),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20, right: 20, bottom: 30),
+                                      child: Text(champion.description,
+                                          style: textTheme.bodyText1,
+                                          maxLines: 6,
+                                          overflow: TextOverflow.ellipsis),
+                                    )
+                                  ]),
+                            ),
                           ),
                         )
                       ],
@@ -306,14 +317,14 @@ class MyPainter extends CustomPainter {
   MyPainter({this.value});
 
   final paintBorder = Paint()
-    ..color = Colors.white54
+    ..color = Colors.white30
     ..style = PaintingStyle.stroke
-    ..strokeWidth = 1.5;
+    ..strokeWidth = 1.0;
 
   final transparentBorder = Paint()
     ..color = Colors.transparent
     ..style = PaintingStyle.stroke
-    ..strokeWidth = 1.5;
+    ..strokeWidth = 1.0;
 
   @override
   void paint(Canvas canvas, Size size) {
