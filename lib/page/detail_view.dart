@@ -204,7 +204,7 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                       ),
                       Text(
                         champion.name.toUpperCase(),
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.headline1.copyWith(letterSpacing: 4 + 15 * ((400 - animation.value) / 400.0)),
                       ),
                     ]),
               ),

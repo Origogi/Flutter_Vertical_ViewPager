@@ -36,11 +36,10 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             Container(
-              color: backgoundColor,
               width: double.infinity,
-              height: 60,
+              height: 70,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(vertical: 15.0),
                 child: Center(
                     child: Image.asset(
                   "images/logo.png",
@@ -50,7 +49,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Expanded(
               child: Container(
-                padding: const EdgeInsets.all(8.0),
                 child: VerticalCardPager(),
               ),
             ),
