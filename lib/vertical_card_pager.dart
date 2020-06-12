@@ -205,10 +205,7 @@ class CardControllerWidget extends StatelessWidget {
             child: Stack(
               children: <Widget>[
                 Positioned.fill(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: images[i],
-                  ),
+                  child: images[i],
                 ),
                 Align(
                     child: Text(

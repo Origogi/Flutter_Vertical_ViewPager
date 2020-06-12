@@ -42,44 +42,62 @@ final List<String> titles = [
 final List<Widget> images = [
   Hero(
     tag: "AKALI",
-    child: Image.asset(
-      "images/akali_lol.gif",
-      fit: BoxFit.cover,
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(20.0),
+      child: Image.asset(
+        "images/akali_lol.gif",
+        fit: BoxFit.cover,
+      ),
     ),
   ),
   Hero(
     tag: "CAMILE",
-    child: Image.asset(
-      "images/camile_lol.gif",
-      fit: BoxFit.cover,
+    child:ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+          child: Image.asset(
+        "images/camile_lol.gif",
+        fit: BoxFit.cover,
+      ),
     ),
   ),
   Hero(
     tag: "EZREAL",
-    child: Image.asset(
-      "images/ezreal_lol.gif",
-      fit: BoxFit.cover,
+    child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+          child: Image.asset(
+        "images/ezreal_lol.gif",
+        fit: BoxFit.cover,
+      ),
     ),
   ),
   Hero(
     tag: "IRELIA",
-    child: Image.asset(
-      "images/irelia_lol.gif",
-      fit: BoxFit.cover,
+    child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+          child: Image.asset(
+        "images/irelia_lol.gif",
+        fit: BoxFit.cover,
+      ),
     ),
   ),
   Hero(
     tag: "POPPY",
-    child: Image.asset(
-      "images/poppy_lol.gif",
-      fit: BoxFit.cover,
+    child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+          child: Image.asset(
+        "images/poppy_lol.gif",
+        fit: BoxFit.cover,
+      ),
     ),
   ),
   Hero(
     tag: "ZOE",
-      child: Image.asset(
-      "images/zoe_lol.gif",
-      fit: BoxFit.cover,
+    child:ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+          child: Image.asset(
+        "images/zoe_lol.gif",
+        fit: BoxFit.cover,
+      ),
     ),
   ),
 ];
