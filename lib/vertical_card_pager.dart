@@ -69,7 +69,7 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
           isScrolling = true;
         },
         onTapUp: (details) {
-          if (!isScrolling && currentPosition - currentPosition.floor() == 0) {
+          if ((currentPosition - currentPosition.floor()).abs() <= 0.15) {
             int selectedIndex = onTapUp(
                 context, constraints.maxHeight, constraints.maxWidth, details);
 
@@ -79,7 +79,7 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
                 MaterialPageRoute(
                     builder: (context) => DetailView(
                           champion:
-                              championsMap[titles[currentPosition.toInt()].toLowerCase()],
+                              championsMap[titles[currentPosition.round()].toLowerCase()],
                         )),
               );
             } else if (selectedIndex >= 0) {

@@ -58,8 +58,6 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print(champion.description);
-
     return Scaffold(
       backgroundColor: backgoundColor,
       body: SafeArea(
