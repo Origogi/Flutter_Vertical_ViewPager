@@ -2,8 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-const maxCardWidthPadding = 50;
-const cardHeightPadding = 15;
 
 enum Role { TANKER, FIGHTER, MARKSMAN, MAGE, ASSASIN }
 

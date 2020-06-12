@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:vertical_view_pager/model/champion.dart';
-import 'package:vertical_view_pager/page/detail_view.dart';
 
-final titles = [
-  "AKALI",
-  "CAMILE",
-  "EZREAL",
-  "IRELIA",
-  "POPPY",
-  "ZOE",
-];
+typedef PageChangedCallback = void Function(double page);
+typedef PageSelectedCallback = void Function(int index);
 
 class VerticalCardPager extends StatefulWidget {
+  final List<String> titles;
+  final List<Widget> images;
+  final PageChangedCallback onPageChanged;
+  final PageSelectedCallback onSelectedItem;
+
+  const VerticalCardPager(
+      {@required this.titles,
+      @required this.images,
+      this.onPageChanged,
+      this.onSelectedItem});
+
   @override
   _VerticalCardPagerState createState() => _VerticalCardPagerState();
 }
@@ -53,7 +56,10 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
     controller.addListener(() {
       setState(() {
         currentPosition = controller.page;
-        print(currentPosition);
+
+        if (widget.onPageChanged != null) {
+          Future(() => widget.onPageChanged(currentPosition));
+        }
       });
     });
   }
@@ -74,14 +80,9 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
                 context, constraints.maxHeight, constraints.maxWidth, details);
 
             if (selectedIndex == 2) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => DetailView(
-                          champion:
-                              championsMap[titles[currentPosition.round()].toLowerCase()],
-                        )),
-              );
+              if (widget.onSelectedItem != null) {
+                Future(() => widget.onSelectedItem(currentPosition.round()));
+              }
             } else if (selectedIndex >= 0) {
               int goToPage = currentPosition.toInt() + selectedIndex - 2;
               controller.animateToPage(goToPage,
@@ -93,6 +94,8 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
         child: Stack(
           children: [
             CardControllerWidget(
+              titles: widget.titles,
+              images: widget.images,
               currentPostion: currentPosition,
               cardViewPagerHeight: constraints.maxHeight,
               cardViewPagerWidth: constraints.maxWidth,
@@ -157,43 +160,22 @@ double getCardPositionTop(double cardHeight, double viewHeight, int i) {
 
 class CardControllerWidget extends StatelessWidget {
   final double currentPostion;
-  final int cardLength = 5;
   final double cardMaxWidth;
   final double cardMaxHeight;
   final double cardViewPagerHeight;
   final double cardViewPagerWidth;
 
+  final List titles;
+  final List images;
+
   CardControllerWidget(
-      {this.cardViewPagerWidth, this.cardViewPagerHeight, this.currentPostion})
+      {this.titles,
+      this.images,
+      this.cardViewPagerWidth,
+      this.cardViewPagerHeight,
+      this.currentPostion})
       : cardMaxHeight = cardViewPagerHeight * (1 / 2),
         cardMaxWidth = cardViewPagerHeight * (1 / 2);
-
-  static List images = [
-    Image.asset(
-      "images/akali_lol.gif",
-      fit: BoxFit.cover,
-    ),
-    Image.asset(
-      "images/camile_lol.gif",
-      fit: BoxFit.cover,
-    ),
-    Image.asset(
-      "images/ezreal_lol.gif",
-      fit: BoxFit.cover,
-    ),
-    Image.asset(
-      "images/irelia_lol.gif",
-      fit: BoxFit.cover,
-    ),
-    Image.asset(
-      "images/poppy_lol.gif",
-      fit: BoxFit.cover,
-    ),
-    Image.asset(
-      "images/zoe_lol.gif",
-      fit: BoxFit.cover,
-    ),
-  ];
 
   final titleTextStyle = TextStyle(
     color: Colors.white,
@@ -211,42 +193,37 @@ class CardControllerWidget extends StatelessWidget {
 
       var cardTop = getTop(cardHeight, cardViewPagerHeight, i);
 
-
-      final champ = championsMap[titles[i].toLowerCase()];
-
       Widget card = Positioned.directional(
-          textDirection: TextDirection.ltr,
-          top: cardTop,
-          start: (cardViewPagerWidth / 2) - (cardWidth / 2),
-          child: Hero(
-            tag: champ.name,
-            child: Opacity(
-              opacity: getOpacity(i),
-              child: Container(
-                width: cardWidth,
-                height: cardHeight,
-                child: Stack(
-                  children: <Widget>[
-                    Positioned.fill(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: images[i],
-                      ),
-                    ),
-                    Align(
-                        child: Text(
-                      titles[i],
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline1
-                          .copyWith(fontSize: getFontSize(i)),
-                      textAlign: TextAlign.center,
-                    )),
-                  ],
+        textDirection: TextDirection.ltr,
+        top: cardTop,
+        start: (cardViewPagerWidth / 2) - (cardWidth / 2),
+        child: Opacity(
+          opacity: getOpacity(i),
+          child: Container(
+            width: cardWidth,
+            height: cardHeight,
+            child: Stack(
+              children: <Widget>[
+                Positioned.fill(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: images[i],
+                  ),
                 ),
-              ),
+                Align(
+                    child: Text(
+                  titles[i],
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline1
+                      .copyWith(fontSize: getFontSize(i)),
+                  textAlign: TextAlign.center,
+                )),
+              ],
             ),
-          ));
+          ),
+        ),
+      );
 
       cardList.add(card);
     }

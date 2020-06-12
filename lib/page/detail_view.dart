@@ -63,7 +63,7 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
       body: SafeArea(
         child: Stack(children: [
           Hero(
-            tag: champion.name,
+            tag: champion.name.toUpperCase(),
             child: ShaderMask(
               shaderCallback: (rect) {
                 return LinearGradient(
@@ -100,9 +100,10 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                             opacity: init ? 1 : 0,
                             duration: Duration(milliseconds: 500),
                             child: Padding(
-                              padding: const EdgeInsets.only(top : 50.0),
+                              padding: const EdgeInsets.only(top: 50.0),
                               child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       mainAxisAlignment:
@@ -127,8 +128,8 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                                                       .split(".")[1],
                                                   style: textTheme.headline3
                                                       .copyWith(
-                                                          color:
-                                                              Color(0xffAE914B)))
+                                                          color: Color(
+                                                              0xffAE914B)))
                                             ]),
                                         Column(
                                           mainAxisAlignment:
@@ -156,14 +157,19 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                                                     .toUpperCase(),
                                                 style: textTheme.headline3
                                                     .copyWith(
-                                                        color: Color(0xffAE914B)))
+                                                        color:
+                                                            Color(0xffAE914B)))
                                           ],
                                         )
                                       ],
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal :30.0),
-                                      child: Divider(color: Colors.white, height: 1,),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 30.0),
+                                      child: Divider(
+                                        color: Colors.white,
+                                        height: 1,
+                                      ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -204,7 +210,9 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
                       ),
                       Text(
                         champion.name.toUpperCase(),
-                        style: Theme.of(context).textTheme.headline1.copyWith(letterSpacing: 4 + 15 * ((400 - animation.value) / 400.0)),
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                            letterSpacing:
+                                4 + 15 * ((400 - animation.value) / 400.0)),
                       ),
                     ]),
               ),

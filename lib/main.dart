@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:vertical_view_pager/page/detail_view.dart';
 import 'package:vertical_view_pager/vertical_card_pager.dart';
 
 import 'constant/constant.dart';
+import 'model/champion.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,6 +30,60 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+final List<String> titles = [
+  "AKALI",
+  "CAMILE",
+  "EZREAL",
+  "IRELIA",
+  "POPPY",
+  "ZOE",
+];
+
+final List<Widget> images = [
+  Hero(
+    tag: "AKALI",
+    child: Image.asset(
+      "images/akali_lol.gif",
+      fit: BoxFit.cover,
+    ),
+  ),
+  Hero(
+    tag: "CAMILE",
+    child: Image.asset(
+      "images/camile_lol.gif",
+      fit: BoxFit.cover,
+    ),
+  ),
+  Hero(
+    tag: "EZREAL",
+    child: Image.asset(
+      "images/ezreal_lol.gif",
+      fit: BoxFit.cover,
+    ),
+  ),
+  Hero(
+    tag: "IRELIA",
+    child: Image.asset(
+      "images/irelia_lol.gif",
+      fit: BoxFit.cover,
+    ),
+  ),
+  Hero(
+    tag: "POPPY",
+    child: Image.asset(
+      "images/poppy_lol.gif",
+      fit: BoxFit.cover,
+    ),
+  ),
+  Hero(
+    tag: "ZOE",
+      child: Image.asset(
+      "images/zoe_lol.gif",
+      fit: BoxFit.cover,
+    ),
+  ),
+];
+
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
@@ -49,7 +105,23 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Expanded(
               child: Container(
-                child: VerticalCardPager(),
+                child: VerticalCardPager(
+                  titles: titles,
+                  images: images,
+                  onPageChanged: (page) {
+                    print(page);
+                  },
+                  onSelectedItem: (index) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DetailView(
+                                champion:
+                                    championsMap[titles[index].toLowerCase()],
+                              )),
+                    );
+                  },
+                ),
               ),
             ),
           ],
