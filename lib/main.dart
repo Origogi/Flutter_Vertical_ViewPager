@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   titles: titles,
                   images: images,
                   onPageChanged: (page) {
-                    print(page);
+                    // print(page);
                   },
                   onSelectedItem: (index) {
                     Navigator.push(

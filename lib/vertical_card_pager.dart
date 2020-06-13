@@ -11,10 +11,13 @@ class VerticalCardPager extends StatefulWidget {
   final PageChangedCallback onPageChanged;
   final PageSelectedCallback onSelectedItem;
 
-  const VerticalCardPager(
+  TextStyle textStyle;
+
+   VerticalCardPager(
       {@required this.titles,
       @required this.images,
       this.onPageChanged,
+      this.textStyle,
       this.onSelectedItem});
 
   @override
@@ -164,6 +167,7 @@ class CardControllerWidget extends StatelessWidget {
   final double cardMaxHeight;
   final double cardViewPagerHeight;
   final double cardViewPagerWidth;
+  final TextStyle textStyle;
 
   final List titles;
   final List images;
@@ -173,19 +177,21 @@ class CardControllerWidget extends StatelessWidget {
       this.images,
       this.cardViewPagerWidth,
       this.cardViewPagerHeight,
-      this.currentPostion})
+      this.currentPostion, this.textStyle})
       : cardMaxHeight = cardViewPagerHeight * (1 / 2),
         cardMaxWidth = cardViewPagerHeight * (1 / 2);
-
-  final titleTextStyle = TextStyle(
-    color: Colors.white,
-    fontFamily: 'Friz',
-    fontWeight: FontWeight.bold,
-  );
 
   @override
   Widget build(BuildContext context) {
     List<Widget> cardList = List();
+
+    var titleTextStyle;
+
+    if (textStyle != null) {
+      titleTextStyle = textStyle;
+    } else {
+       titleTextStyle = Theme.of(context).textTheme.headline1;
+    }
 
     for (int i = 0; i < images.length; i++) {
       var cardWidth = cardMaxWidth - 60 * (currentPostion - i).abs();
@@ -210,9 +216,7 @@ class CardControllerWidget extends StatelessWidget {
                 Align(
                     child: Text(
                   titles[i],
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline1
+                  style: titleTextStyle
                       .copyWith(fontSize: getFontSize(i)),
                   textAlign: TextAlign.center,
                 )),

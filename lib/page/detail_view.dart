@@ -60,166 +60,163 @@ class _DetailViewState extends State<DetailView> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgoundColor,
-      body: SafeArea(
-        child: Stack(children: [
-          Hero(
-            tag: champion.name.toUpperCase(),
-            child: ShaderMask(
-              shaderCallback: (rect) {
-                return LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [backgoundColor, Colors.transparent],
-                ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
-              },
-              blendMode: BlendMode.dstIn,
-              child: Image.asset(
-                "images/${champion.name.toLowerCase()}_lol.gif",
-                fit: BoxFit.fitWidth,
-                width: double.infinity,
-              ),
+      body: Stack(children: [
+        Hero(
+          tag: champion.name.toUpperCase(),
+          child: ShaderMask(
+            shaderCallback: (rect) {
+              return LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [backgoundColor, Colors.transparent],
+              ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+            },
+            blendMode: BlendMode.dstIn,
+            child: Image.asset(
+              "images/${champion.name.toLowerCase()}_lol.gif",
+              fit: BoxFit.fitWidth,
+              width: double.infinity,
             ),
           ),
-          Padding(
-              padding: EdgeInsets.only(left: 5, top: 45),
-              child: CustomBackButton()),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Stack(
-              children: [
-                Container(
-                    padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
-                    width: double.infinity,
-                    height: 320,
-                    child: Stack(
-                      children: [
-                        AnimatedBorder(animation: animation),
-                        Align(
-                          alignment: Alignment.center,
-                          child: AnimatedOpacity(
-                            opacity: init ? 1 : 0,
-                            duration: Duration(milliseconds: 500),
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 50.0),
-                              child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: <Widget>[
-                                        Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Image.asset(
-                                                  "images/role/${champion.role.toString().split(".")[1].toLowerCase()}.png",
-                                                  width: 40,
-                                                  height: 40),
-                                              SizedBox(
-                                                height: 20,
-                                              ),
-                                              Text("ROLE",
-                                                  style: textTheme.headline3),
-                                              Text(
-                                                  champion.role
-                                                      .toString()
-                                                      .split(".")[1],
-                                                  style: textTheme.headline3
-                                                      .copyWith(
-                                                          color: Color(
-                                                              0xffAE914B)))
-                                            ]),
-                                        Column(
+        ),
+        Padding(
+            padding: EdgeInsets.only(left: 5, top: 45),
+            child: CustomBackButton()),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Stack(
+            children: [
+              Container(
+                  padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
+                  width: double.infinity,
+                  height: 320,
+                  child: Stack(
+                    children: [
+                      AnimatedBorder(animation: animation),
+                      Align(
+                        alignment: Alignment.center,
+                        child: AnimatedOpacity(
+                          opacity: init ? 1 : 0,
+                          duration: Duration(milliseconds: 500),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 50.0),
+                            child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              height: 40,
-                                              child: Center(
-                                                child: DifficultyGraph(
-                                                    count: widget.champion
-                                                        .difficulty.index),
-                                              ),
-                                            ),
+                                          children: [
+                                            Image.asset(
+                                                "images/role/${champion.role.toString().split(".")[1].toLowerCase()}.png",
+                                                width: 40,
+                                                height: 40),
                                             SizedBox(
                                               height: 20,
                                             ),
+                                            Text("ROLE",
+                                                style: textTheme.headline3),
                                             Text(
-                                              "DIFFICULTY",
-                                              style: textTheme.headline3,
-                                            ),
-                                            Text(
-                                                champion.difficulty
+                                                champion.role
                                                     .toString()
-                                                    .split(".")[1]
-                                                    .toUpperCase(),
+                                                    .split(".")[1],
                                                 style: textTheme.headline3
                                                     .copyWith(
                                                         color:
                                                             Color(0xffAE914B)))
-                                          ],
-                                        )
-                                      ],
+                                          ]),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            height: 40,
+                                            child: Center(
+                                              child: DifficultyGraph(
+                                                  count: widget.champion
+                                                      .difficulty.index),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            "DIFFICULTY",
+                                            style: textTheme.headline3,
+                                          ),
+                                          Text(
+                                              champion.difficulty
+                                                  .toString()
+                                                  .split(".")[1]
+                                                  .toUpperCase(),
+                                              style: textTheme.headline3
+                                                  .copyWith(
+                                                      color: Color(0xffAE914B)))
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30.0),
+                                    child: Divider(
+                                      color: Colors.white,
+                                      height: 1,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 30.0),
-                                      child: Divider(
-                                        color: Colors.white,
-                                        height: 1,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20, right: 20, bottom: 30),
-                                      child: Text(champion.description,
-                                          style: textTheme.bodyText1,
-                                          maxLines: 6,
-                                          overflow: TextOverflow.ellipsis),
-                                    )
-                                  ]),
-                            ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20, right: 20, bottom: 30),
+                                    child: Text(champion.description,
+                                        style: textTheme.bodyText1,
+                                        maxLines: 6,
+                                        overflow: TextOverflow.ellipsis),
+                                  )
+                                ]),
                           ),
-                        )
-                      ],
-                    )),
-              ],
+                        ),
+                      )
+                    ],
+                  )),
+            ],
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: AnimatedOpacity(
+            duration: Duration(milliseconds: 500),
+            opacity: init ? 1.0 : 0.0,
+            child: Container(
+              margin: EdgeInsets.only(bottom: 185),
+              width: double.infinity,
+              height: 270,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      champion.nickName,
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      champion.name.toUpperCase(),
+                      style: Theme.of(context).textTheme.headline1.copyWith(
+                          letterSpacing:
+                              4 + 25 * ((400 - animation.value) / 400.0)),
+                    ),
+                  ]),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: AnimatedOpacity(
-              duration: Duration(milliseconds: 500),
-              opacity: init ? 1.0 : 0.0,
-              child: Container(
-                margin: EdgeInsets.only(bottom: 185),
-                width: double.infinity,
-                height: 270,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        champion.nickName,
-                        style: Theme.of(context).textTheme.headline2,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        champion.name.toUpperCase(),
-                        style: Theme.of(context).textTheme.headline1.copyWith(
-                            letterSpacing:
-                                4 + 25 * ((400 - animation.value) / 400.0)),
-                      ),
-                    ]),
-              ),
-            ),
-          ),
-        ]),
-      ),
+        ),
+      ]),
     );
   }
 }
