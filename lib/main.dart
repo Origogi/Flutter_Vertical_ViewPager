@@ -124,6 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: Container(
                 child: VerticalCardPager(
+                  // textStyle: TextStyle(color : Colors.red),
                   titles: titles,
                   images: images,
                   onPageChanged: (page) {

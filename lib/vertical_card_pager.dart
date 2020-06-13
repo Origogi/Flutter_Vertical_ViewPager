@@ -10,8 +10,7 @@ class VerticalCardPager extends StatefulWidget {
   final List<Widget> images;
   final PageChangedCallback onPageChanged;
   final PageSelectedCallback onSelectedItem;
-
-  TextStyle textStyle;
+  final TextStyle textStyle;
 
    VerticalCardPager(
       {@required this.titles,
@@ -99,6 +98,7 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
             CardControllerWidget(
               titles: widget.titles,
               images: widget.images,
+              textStyle: widget.textStyle,
               currentPostion: currentPosition,
               cardViewPagerHeight: constraints.maxHeight,
               cardViewPagerWidth: constraints.maxWidth,
@@ -106,7 +106,7 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
             Positioned.fill(
               child: PageView.builder(
                 scrollDirection: Axis.vertical,
-                itemCount: 6,
+                itemCount: widget.images.length,
                 controller: controller,
                 itemBuilder: (context, index) {
                   return Container();
