@@ -2,6 +2,12 @@
 
 Vertical viewpager
 
+__this project was duplicated.__
+
+__I moved this project to below link__
+
+https://github.com/Origogi/Vertical_Card_Pager
+
 ## Reference
 
 ![reference](https://user-images.githubusercontent.com/35194820/82746753-4e421980-9dce-11ea-9c80-be521c497d4d.gif)
@@ -16,10 +22,3 @@ Vertical viewpager
 
 ![image](https://user-images.githubusercontent.com/35194820/83151317-60f28080-a137-11ea-85bb-aaaa5f7c84d9.png)
 
-## TODO
-
-- [x] Make proto type
-- [x] Add or Remove Item effect
-- [x] Add round edge in each item view
-- [x] Handle touch event
-- [ ] deploy plug in
