@@ -17,7 +17,7 @@ class VerticalCardPager extends StatefulWidget {
       @required this.images,
       this.onPageChanged,
       this.textStyle,
-      this.onSelectedItem});
+      this.onSelectedItem}) : assert(titles.length == images.length) ;
 
   @override
   _VerticalCardPagerState createState() => _VerticalCardPagerState();
